@@ -1,3 +1,5 @@
+import { OffersProps } from '../../mocks/offers-types';
+import { HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppRoute } from '../../enums';
 import MainScreen from '../../pages/main-screen/main-screen';
@@ -5,34 +7,32 @@ import RoomScreen from '../../pages/room-screen/room-screen';
 import LoginScreen from '../../pages/login-screen/login-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 
-type AppScreenProps = {
-  cardsCount: number;
-}
+function App(props: OffersProps): JSX.Element {
+  const {offers} = props;
 
-function App({cardsCount}: AppScreenProps): JSX.Element {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path={AppRoute.Root}
-          element={<MainScreen cardsCount={cardsCount} />}
-        />
-        <Route path={AppRoute.Room} >
+    <HelmetProvider>
+      <BrowserRouter>
+        <Routes>
           <Route
-            path=':id'
+            path={AppRoute.Root}
+            element={<MainScreen offers={offers} />}
+          />
+          <Route
+            path={`${AppRoute.Offer}/:id`}
             element={<RoomScreen />}
           />
-        </Route>
-        <Route
-          path={AppRoute.Login}
-          element={<LoginScreen />}
-        />
-        <Route
-          path='*'
-          element={<NotFoundScreen />}
-        />
-      </Routes>
-    </BrowserRouter>
+          <Route
+            path={AppRoute.Login}
+            element={<LoginScreen />}
+          />
+          <Route
+            path='*'
+            element={<NotFoundScreen />}
+          />
+        </Routes>
+      </BrowserRouter>
+    </HelmetProvider>
   );
 }
 
