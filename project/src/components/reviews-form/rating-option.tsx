@@ -1,10 +1,9 @@
-import { RatingOptionProps } from './rating-option-types';
+import { Props } from './rating-option-types';
 import { Fragment } from 'react';
 
-function RatingOption(props: RatingOptionProps): JSX.Element {
-  const {option, onRatingChange} = props;
+function RatingOption({option, onRatingChange}: Props): JSX.Element {
 
-  return(
+  return (
     <Fragment>
       <input onChange={() => onRatingChange(String(option.value))} className="form__rating-input visually-hidden" name="rating" value={option.value} id={`${option.value}-stars`} type="radio" />
       <label htmlFor={`${option.value}-stars`} className="reviews__rating-label form__rating-label" title={option.title}>

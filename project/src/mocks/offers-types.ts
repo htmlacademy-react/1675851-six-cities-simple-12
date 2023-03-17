@@ -1,13 +1,3 @@
-export type OffersProps = {
-  offers: Offers;
-}
-
-export type OfferProps = {
-  offer: Offer;
-}
-
-export type Offers = Offer[];
-
 export type Offer = {
   city: City;
   previewImage: string;

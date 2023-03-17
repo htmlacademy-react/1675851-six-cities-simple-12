@@ -1,0 +1,4 @@
+div.header__logo-link:not(.header__logo-link--active):focus,
+div.header__logo-link:not(.header__logo-link--active):hover {
+  opacity: 1;
+}

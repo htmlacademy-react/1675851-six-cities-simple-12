@@ -1,9 +1,9 @@
-export type RatingOptionProps = {
-  option: RatingOptionState;
+export type Props = {
+  option: RatingOption;
   onRatingChange: (value: string) => void;
 }
 
-export type RatingOptionState = {
+export type RatingOption = {
   value: number;
   title: string;
 }

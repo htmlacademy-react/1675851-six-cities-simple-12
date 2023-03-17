@@ -1,12 +1,11 @@
-import { OffersProps } from '../../mocks/offers-types';
+import { Props } from './main-screen-types';
 import { Helmet } from 'react-helmet-async';
 import SvgIcons from '../../components/svg-icons/svg-icons';
 import HeaderLogo from '../../components/header-logo/header-logo';
 import HeaderNav from '../../components/header-nav/header-nav';
 import PlaceCards from '../../components/place-cards/place-cards';
 
-function MainScreen(props: OffersProps): JSX.Element {
-  const {offers} = props;
+function MainScreen({offers}: Props): JSX.Element {
 
   return (
     <div className="page page--gray page--main">

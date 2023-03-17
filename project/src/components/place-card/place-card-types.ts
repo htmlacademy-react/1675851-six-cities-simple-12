@@ -1,17 +1,7 @@
-import { OfferProps as MainOfferProps } from '../../mocks/offers-types';
+import { Offer } from '../../mocks/offers-types';
 
-export type OfferProps = MainOfferProps & {
+export type Props = {
+  offer: Offer;
   onPlaceCard: (id: number) => void;
-  outPlaceCard: (empty: null) => void;
-}
-
-export type PlaceCardState = {
-  id: number;
-  isPremium: JSX.Element | string;
-  route: string;
-  previewImage: string;
-  price: number;
-  rating: string;
-  title: string;
-  type: string;
+  outPlaceCard: (nothing: null) => void;
 }
