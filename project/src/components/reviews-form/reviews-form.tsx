@@ -6,7 +6,7 @@ function ReviewsForm(): JSX.Element {
   const [/*formData*/, setFormData] = useState({ rating: '', review: '' });
 
   const handleRatingChange = useCallback((value: string) => setFormData((prevFormData) => ({...prevFormData, rating: value})), []);
-  const handleReviewChange = useCallback((evt: ChangeEvent<HTMLTextAreaElement>) => setFormData((prevFormData) => ({...prevFormData, review: evt.target.value})), []);
+  const handleReviewChange = useCallback(({target}: ChangeEvent<HTMLTextAreaElement>) => setFormData((prevFormData) => ({...prevFormData, review: target.value})), []);
 
   return (
     <form className="reviews__form form" action="#" method="post">
