@@ -12,16 +12,16 @@ export type Offer = {
   goods: string[];
   host: Host;
   description: string;
-  location: LocationSecond;
+  location: OfferLocation;
   id: number;
 }
 
 export type City = {
   name: string;
-  location: LocationFirst;
+  location: CityLocation;
 }
 
-export type LocationFirst = {
+export type CityLocation = {
   latitude: number;
   longitude: number;
   zoom: number;
@@ -34,7 +34,7 @@ export type Host = {
   avatarUrl: string;
 }
 
-export type LocationSecond = {
+export type OfferLocation = {
   latitude: number;
   longitude: number;
   zoom: number;
