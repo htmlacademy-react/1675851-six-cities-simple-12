@@ -8,9 +8,7 @@ function LoginScreen(): JSX.Element {
       <Helmet>
         <title>6 Cities &mdash; Login page</title>
       </Helmet>
-
       <SvgIcons />
-
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
@@ -18,7 +16,6 @@ function LoginScreen(): JSX.Element {
           </div>
         </div>
       </header>
-
       <main className="page__main page__main--login">
         <div className="page__login-container container">
           <section className="login">

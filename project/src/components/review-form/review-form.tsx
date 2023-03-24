@@ -1,29 +1,30 @@
 import { useState, useCallback, ChangeEvent } from 'react';
-import { ratingOptions } from './rating-option-utils';
+import { options } from './utils';
 import RatingOption from './rating-option';
 
-function ReviewsForm(): JSX.Element {
+function ReviewForm(): JSX.Element {
   const [/*formData*/, setFormData] = useState({ rating: '', review: '' });
 
-  const handleRatingChange = useCallback((value: string) => setFormData((prevFormData) => ({...prevFormData, rating: value})), []);
-  const handleReviewChange = useCallback(({target}: ChangeEvent<HTMLTextAreaElement>) => setFormData((prevFormData) => ({...prevFormData, review: target.value})), []);
+  const handleChange = useCallback(({target}: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData((prevFormData) => ({ ...prevFormData, [target.name]: target.value }));
+  }, []);
 
   return (
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {
-          ratingOptions.map((ratingOption) => (
+          options.map((option) => (
             <RatingOption
-              key={ratingOption.value}
-              option={ratingOption}
-              onRatingChange={(value) => handleRatingChange(value)}
+              key={option.value}
+              option={option}
+              onChange={handleChange}
             />
           ))
         }
       </div>
       <textarea
-        onChange={handleReviewChange}
+        onChange={handleChange}
         className="reviews__textarea form__textarea"
         id="review"
         name="review"
@@ -38,4 +39,4 @@ function ReviewsForm(): JSX.Element {
   );
 }
 
-export default ReviewsForm;
+export default ReviewForm;

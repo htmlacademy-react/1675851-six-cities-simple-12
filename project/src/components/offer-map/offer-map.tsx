@@ -1,23 +1,23 @@
 import { Icon, Marker } from 'leaflet';
-import MARKER_DEFAULT from './pin.svg';
-import MARKER_SELECTED from './pin-active.svg';
-import { Props } from './offer-map-types';
+import defaultMarker from './pin.svg';
+import selectedMarker from './pin-active.svg';
+import { Props } from './types';
 import { useRef } from 'react';
 import useMap from '../../hooks/use-map/use-map';
 import { useEffect } from 'react';
 import 'leaflet/dist/leaflet.css';
-import './offer-map-styles.css';
+import './styles.css';
 
 const tileLayer = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
 
 const defaultIcon = new Icon({
-  iconUrl: MARKER_DEFAULT,
+  iconUrl: defaultMarker,
   iconSize: [40.5, 58.5],
   iconAnchor: [20.25, 58.5],
 });
 
 const selectedIcon = new Icon({
-  iconUrl: MARKER_SELECTED,
+  iconUrl: selectedMarker,
   iconSize: [40.5, 58.5],
   iconAnchor: [20.25, 58.5],
 });

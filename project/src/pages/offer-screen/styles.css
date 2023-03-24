@@ -1,0 +1,3 @@
+.property__feature--entire::first-letter {
+  text-transform: uppercase;
+}

@@ -1,19 +1,19 @@
-import { Props } from './offer-card-types';
+import { Props } from './types';
 import { useContext } from 'react';
-import { Context } from '../../pages/main-screen/main-screen-utils';
-import { MainScreenContext } from '../../pages/main-screen/main-screen-types';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../enums';
-import './offer-card-styles.css';
+import './styles.css';
+import { Context } from '../location-offers/context';
+import { LocationOffersContext } from '../location-offers/types';
 
 function OfferCard({offer}: Props): JSX.Element {
-  const {getSelectedOffer} = useContext(Context) as MainScreenContext;
+  const {set} = useContext(Context) as LocationOffersContext;
 
   return (
     <article
       className="cities__card place-card"
-      onMouseOver={() => getSelectedOffer(offer.id)}
-      onMouseLeave={() => getSelectedOffer(null)}
+      onMouseOver={() => set(offer.id)}
+      onMouseLeave={() => set(null)}
     >
       {offer.isPremium ? <div className="place-card__mark"><span>Premium</span></div> : ''}
       <div className="cities__image-wrapper place-card__image-wrapper">

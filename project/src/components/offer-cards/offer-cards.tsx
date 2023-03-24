@@ -1,4 +1,4 @@
-import { Props } from './offer-cards-types';
+import { Props } from './types';
 import { Fragment } from 'react';
 import OfferCard from '../offer-card/offer-card';
 

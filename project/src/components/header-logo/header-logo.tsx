@@ -1,11 +1,11 @@
-import { Props } from './header-logo-types';
+import { Props } from './types';
+import { LocationRoute } from '../../enums';
 import { useLocation, Link } from 'react-router-dom';
-import { AppRoute } from '../../enums';
-import './header-logo-styles.css';
+import './styles.css';
 
 const ConditionalLink = ({pathname, children}: Props): JSX.Element => {
   switch (pathname) {
-    case AppRoute.Root: {
+    case LocationRoute.Paris: {
       return (
         <div className="header__left">
           <div className="header__logo-link">
@@ -14,11 +14,10 @@ const ConditionalLink = ({pathname, children}: Props): JSX.Element => {
         </div>
       );
     }
-
     default: {
       return (
         <div className="header__left">
-          <Link className="header__logo-link" to={AppRoute.Root}>
+          <Link className="header__logo-link" to={LocationRoute.Paris}>
             {children}
           </Link>
         </div>

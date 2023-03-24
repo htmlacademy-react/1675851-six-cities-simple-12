@@ -1,4 +1,4 @@
-import { CityLocation, Offer } from '../../mocks/offers-types';
+import { CityLocation, Offer } from '../../mocks/types';
 
 export type Props = {
   locationSettings: CityLocation;

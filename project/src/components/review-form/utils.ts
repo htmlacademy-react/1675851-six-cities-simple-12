@@ -6,7 +6,7 @@ export enum RatingTitle {
   Perfect = 'perfect'
 }
 
-export const RatingScore = {
+export const ratingValueMap = {
   [RatingTitle.Terribly]: 1,
   [RatingTitle.Badly]: 2,
   [RatingTitle.NotBad]: 3,
@@ -14,4 +14,4 @@ export const RatingScore = {
   [RatingTitle.Perfect]: 5
 };
 
-export const ratingOptions = Object.entries(RatingScore).map(([title, value]) => ({title, value})).reverse();
+export const options = Object.entries(ratingValueMap).map(([title, value]) => ({title, value})).reverse();

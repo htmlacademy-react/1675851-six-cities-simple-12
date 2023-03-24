@@ -3,3 +3,12 @@ export enum AppRoute {
   Offer = '/offer',
   Login = '/login'
 }
+
+export enum LocationRoute {
+  Paris = '/paris',
+  Cologne = '/cologne',
+  Brussels = '/brussels',
+  Amsterdam = '/amsterdam',
+  Hamburg = '/hamburg',
+  Dusseldorf = '/dusseldorf'
+}
