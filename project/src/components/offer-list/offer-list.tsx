@@ -1,13 +1,13 @@
 import { Props } from './types';
 import { Fragment } from 'react';
-import OfferCard from '../offer-card/offer-card';
+import OfferItem from '../offer-item/offer-item';
 
-function OfferCards({offers}: Props): JSX.Element {
+function OfferList({offers}: Props): JSX.Element {
   return (
     <Fragment>
       {
         offers.map((offer) => (
-          <OfferCard
+          <OfferItem
             key={offer.id}
             offer={offer}
           />
@@ -17,4 +17,4 @@ function OfferCards({offers}: Props): JSX.Element {
   );
 }
 
-export default OfferCards;
+export default OfferList;

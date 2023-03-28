@@ -1,5 +1,9 @@
 import { Offer } from '../../mocks/types';
 
 export type Props = {
-  offer: Offer;
+  offers: Offer[];
 };
+
+export type OfferPageContext = {
+  set: (value: number | null) => void;
+}

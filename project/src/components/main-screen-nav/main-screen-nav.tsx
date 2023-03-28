@@ -1,14 +1,12 @@
-import { NavLink } from 'react-router-dom';
 import { LocationRoute } from '../../enums';
-import { LocationRouteType } from './types';
+import { LocationRouteType } from '../../types';
+import { NavLink } from 'react-router-dom';
 
-const locationList = Object.keys(LocationRoute);
-
-function LocationsNav(): JSX.Element {
+function MainScreenNav(): JSX.Element {
   return (
     <ul className="locations__list tabs__list">
       {
-        locationList.map((locationItem, index) => {
+        Object.keys(LocationRoute).map((locationItem, index) => {
           const keyValue = `${index}-${locationItem}`;
 
           return (
@@ -17,13 +15,13 @@ function LocationsNav(): JSX.Element {
               key={keyValue}
             >
               <NavLink
-                to={LocationRoute[locationItem as LocationRouteType]}
                 className={({isActive}) => [
                   'locations__item-link',
                   isActive ?
                     'tabs__item tabs__item--active' :
                     'tabs__item'
                 ].join(' ')}
+                to={LocationRoute[locationItem as LocationRouteType]}
               >
                 <span>{locationItem}</span>
               </NavLink>
@@ -35,4 +33,4 @@ function LocationsNav(): JSX.Element {
   );
 }
 
-export default LocationsNav;
+export default MainScreenNav;

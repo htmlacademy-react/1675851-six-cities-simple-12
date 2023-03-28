@@ -1,19 +1,18 @@
 import { Props } from './types';
-import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../enums';
 import './styles.css';
-import { Context } from '../location-offers/context';
-import { LocationOffersContext } from '../location-offers/types';
+import { useAppDispatch } from '../../hooks';
+import { setSelectedOffer } from '../../store/action';
 
-function OfferCard({offer}: Props): JSX.Element {
-  const {set} = useContext(Context) as LocationOffersContext;
+function OfferItem({offer}: Props): JSX.Element {
+  const dispatch = useAppDispatch();
 
   return (
     <article
       className="cities__card place-card"
-      onMouseOver={() => set(offer.id)}
-      onMouseLeave={() => set(null)}
+      onMouseOver={() => dispatch(setSelectedOffer({offerId: offer.id}))}
+      onMouseLeave={() => dispatch(setSelectedOffer({offerId: null}))}
     >
       {offer.isPremium ? <div className="place-card__mark"><span>Premium</span></div> : ''}
       <div className="cities__image-wrapper place-card__image-wrapper">
@@ -43,4 +42,4 @@ function OfferCard({offer}: Props): JSX.Element {
   );
 }
 
-export default OfferCard;
+export default OfferItem;

@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 
-function OfferReview(): JSX.Element {
+function ReviewItem(): JSX.Element {
   return (
     <Fragment>
       <div className="reviews__user user">
@@ -27,4 +27,4 @@ function OfferReview(): JSX.Element {
   );
 }
 
-export default OfferReview;
+export default ReviewItem;

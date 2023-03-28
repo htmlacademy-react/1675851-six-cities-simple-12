@@ -1,7 +1,7 @@
 import { CityLocation, Offer } from '../../mocks/types';
 
 export type Props = {
-  locationSettings: CityLocation;
+  locationCenter: CityLocation | undefined;
   offers: Offer[];
-  selectedOffer: number | null;
+  className: string;
 };

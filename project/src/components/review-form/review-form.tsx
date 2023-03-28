@@ -1,6 +1,6 @@
 import { useState, useCallback, ChangeEvent } from 'react';
 import { options } from './utils';
-import RatingOption from './rating-option';
+import RatingItem from '../rating-item/rating-item';
 
 function ReviewForm(): JSX.Element {
   const [/*formData*/, setFormData] = useState({ rating: '', review: '' });
@@ -15,7 +15,7 @@ function ReviewForm(): JSX.Element {
       <div className="reviews__rating-form form__rating">
         {
           options.map((option) => (
-            <RatingOption
+            <RatingItem
               key={option.value}
               option={option}
               onChange={handleChange}

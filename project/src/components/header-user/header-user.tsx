@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../enums';
 
-function HeaderNav(): JSX.Element {
+function HeaderUser(): JSX.Element {
   return (
     <nav className="header__nav">
       <ul className="header__nav-list">
@@ -16,4 +16,4 @@ function HeaderNav(): JSX.Element {
   );
 }
 
-export default HeaderNav;
+export default HeaderUser;

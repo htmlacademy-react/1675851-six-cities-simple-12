@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import SvgIcons from '../../components/svg-icons/svg-icons';
+import Icons from '../../components/icons/icons';
 import HeaderLogo from '../../components/header-logo/header-logo';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../enums';
@@ -11,7 +11,7 @@ function NotFoundScreen(): JSX.Element {
       <Helmet>
         <title>404 &mdash; Page not found</title>
       </Helmet>
-      <SvgIcons />
+      <Icons />
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
