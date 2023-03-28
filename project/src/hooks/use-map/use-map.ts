@@ -1,28 +1,33 @@
-import { MutableRefObject, useState, useRef, useEffect } from 'react';
-import { CityLocation } from '../../mocks/offers-types';
+import { MutableRefObject, useState, useEffect } from 'react';
+import { CityLocation } from '../../mocks/types';
 import { Map, TileLayer } from 'leaflet';
+
+const TILE_LAYER = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
 
 function useMap(
   mapRef: MutableRefObject<HTMLElement | null>,
-  tileLayer: string,
-  locationSettings: CityLocation,
-) {
+  locationCenter: CityLocation | undefined) {
+
   const [map, setMap] = useState<Map | null>(null);
-  const isRenderedRef = useRef(false);
 
   useEffect(() => {
-    if (mapRef.current !== null && !isRenderedRef.current) {
-      const instance = new Map(mapRef.current);
-      const layer = new TileLayer(tileLayer);
+    if (mapRef.current) {
+      const instance = new Map(mapRef.current, {scrollWheelZoom: false});
+      const layer = new TileLayer(TILE_LAYER);
 
       instance.addLayer(layer);
       setMap(instance);
-
-      isRenderedRef.current = true;
     }
+  }, [mapRef]);
 
-    map?.setView([locationSettings.latitude, locationSettings.longitude], locationSettings.zoom);
-  }, [mapRef, tileLayer, map, locationSettings]);
+  useEffect(() => {
+    if (map && locationCenter) {
+      map.setView(
+        [locationCenter.latitude, locationCenter.longitude],
+        locationCenter.zoom
+      );
+    }
+  }, [map, locationCenter]);
 
   return map;
 }

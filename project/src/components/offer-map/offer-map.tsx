@@ -1,33 +1,35 @@
-import { Icon, Marker } from 'leaflet';
-import MARKER_DEFAULT from './pin.svg';
-import MARKER_SELECTED from './pin-active.svg';
-import { Props } from './offer-map-types';
+import { Icon, Marker, LayerGroup } from 'leaflet';
+import defaultMarker from './pin.svg';
+import selectedMarker from './pin-active.svg';
+import { Props } from './types';
 import { useRef } from 'react';
 import useMap from '../../hooks/use-map/use-map';
+import { useAppSelector } from '../../hooks';
 import { useEffect } from 'react';
 import 'leaflet/dist/leaflet.css';
-import './offer-map-styles.css';
-
-const tileLayer = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+import './styles.css';
 
 const defaultIcon = new Icon({
-  iconUrl: MARKER_DEFAULT,
+  iconUrl: defaultMarker,
   iconSize: [40.5, 58.5],
   iconAnchor: [20.25, 58.5],
 });
 
 const selectedIcon = new Icon({
-  iconUrl: MARKER_SELECTED,
+  iconUrl: selectedMarker,
   iconSize: [40.5, 58.5],
   iconAnchor: [20.25, 58.5],
 });
 
-function OfferMap({locationSettings, offers, selectedOffer}: Props): JSX.Element {
+function OfferMap({locationCenter, offers, className}: Props): JSX.Element {
   const mapRef = useRef(null);
-  const map = useMap(mapRef, tileLayer, locationSettings);
+  const map = useMap(mapRef, locationCenter);
+  const selectedOffer = useAppSelector((state) => state.selectedOffer);
 
   useEffect(() => {
     if (map) {
+      const markerGroup = new LayerGroup();
+
       offers.forEach((offer) => {
         const marker = new Marker({
           lat: offer.location.latitude,
@@ -36,14 +38,20 @@ function OfferMap({locationSettings, offers, selectedOffer}: Props): JSX.Element
 
         marker
           .setIcon((offer.id === selectedOffer) ? selectedIcon : defaultIcon)
-          .addTo(map);
+          .addTo(markerGroup);
+
+        markerGroup.addTo(map);
       });
+
+      return () => {
+        map.removeLayer(markerGroup);
+      };
     }
-  }, [map, offers, selectedOffer]);
+  }, [map, offers, className, selectedOffer]);
 
   return (
     <section
-      className="cities__map map"
+      className={`map ${className}`}
       ref={mapRef}
     >
     </section>
