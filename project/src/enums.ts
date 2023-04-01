@@ -12,8 +12,3 @@ export enum LocationRoute {
   Hamburg = '/hamburg',
   Dusseldorf = '/dusseldorf'
 }
-
-export enum MapClassName {
-  Location = 'cities__map',
-  Offer = 'property__map'
-}

@@ -1,33 +1,32 @@
 import { Props } from './types';
+import { useAppSelector } from '../../hooks';
+import { getData } from '../../store/reducer';
 import { Fragment } from 'react';
 import cn from 'classnames';
 import ReviewList from '../review-list/review-list';
-import { MapClassName } from '../../enums';
 import OfferMap from '../offer-map/offer-map';
 import OfferList from '../offer-list/offer-list';
 
-function OfferScreenContent({offer, offers, locationCenter}: Props): JSX.Element {
+function OfferScreenContent({offer}: Props): JSX.Element {
+  const {offerList, locationCenter} = useAppSelector(getData);
+
   return (
     <Fragment>
       <section className="property">
         <div className="property__gallery-container container">
           <div className="property__gallery">
             {
-              offer.images.map((image, index) => {
-                const keyValue = `${index}-${image}`;
-
-                return (
-                  <div className="property__image-wrapper" key={keyValue}>
-                    <img className="property__image" src={image} alt="" />
-                  </div>
-                );
-              })
+              offer.images.map((image) => (
+                <div className="property__image-wrapper" key={image}>
+                  <img className="property__image" src={image} alt="" />
+                </div>
+              ))
             }
           </div>
         </div>
         <div className="property__container container">
           <div className="property__wrapper">
-            {offer.isPremium ? <div className="property__mark"><span>Premium</span></div> : ''}
+            {offer.isPremium ? <div className="property__mark"><span>Premium</span></div> : null}
             <div className="property__name-wrapper">
               <h1 className="property__name">{offer.title}</h1>
             </div>
@@ -56,13 +55,7 @@ function OfferScreenContent({offer, offers, locationCenter}: Props): JSX.Element
             <div className="property__inside">
               <h2 className="property__inside-title">What&apos;s inside</h2>
               <ul className="property__inside-list">
-                {
-                  offer.goods.map((item, index) => {
-                    const keyValue = `${index}-${item}`;
-
-                    return <li className="property__inside-item" key={keyValue}>{item}</li>;
-                  })
-                }
+                {offer.goods.map((item) => <li className="property__inside-item" key={item}>{item}</li>)}
               </ul>
             </div>
             <div className="property__host">
@@ -86,15 +79,15 @@ function OfferScreenContent({offer, offers, locationCenter}: Props): JSX.Element
         </div>
         <OfferMap
           locationCenter={locationCenter}
-          offers={offers}
-          className={MapClassName.Offer}
+          offers={offerList}
+          className={'property__map'}
         />
       </section>
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
           <div className="near-places__list places__list">
-            <OfferList offers={offers}/>
+            <OfferList offers={offerList}/>
           </div>
         </section>
       </div>

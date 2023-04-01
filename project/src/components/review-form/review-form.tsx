@@ -1,9 +1,10 @@
 import { useState, useCallback, ChangeEvent } from 'react';
+import { Form } from './types';
 import { options } from './utils';
 import RatingItem from '../rating-item/rating-item';
 
 function ReviewForm(): JSX.Element {
-  const [/*formData*/, setFormData] = useState({ rating: '', review: '' });
+  const [/*formData*/, setFormData] = useState<Form>({ rating: 0, review: '' });
 
   const handleChange = useCallback(({target}: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData((prevFormData) => ({ ...prevFormData, [target.name]: target.value }));

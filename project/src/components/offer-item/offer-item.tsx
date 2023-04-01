@@ -1,9 +1,9 @@
 import { Props } from './types';
+import { useAppDispatch } from '../../hooks';
+import { setOfferItem, resetOfferItem } from '../../store/action';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../enums';
 import './styles.css';
-import { useAppDispatch } from '../../hooks';
-import { setSelectedOffer } from '../../store/action';
 
 function OfferItem({offer}: Props): JSX.Element {
   const dispatch = useAppDispatch();
@@ -11,8 +11,8 @@ function OfferItem({offer}: Props): JSX.Element {
   return (
     <article
       className="cities__card place-card"
-      onMouseOver={() => dispatch(setSelectedOffer({offerId: offer.id}))}
-      onMouseLeave={() => dispatch(setSelectedOffer({offerId: null}))}
+      onMouseOver={() => dispatch(setOfferItem({offerItem: offer}))}
+      onMouseLeave={() => dispatch(resetOfferItem())}
     >
       {offer.isPremium ? <div className="place-card__mark"><span>Premium</span></div> : ''}
       <div className="cities__image-wrapper place-card__image-wrapper">

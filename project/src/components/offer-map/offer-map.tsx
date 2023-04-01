@@ -8,6 +8,8 @@ import { useAppSelector } from '../../hooks';
 import { useEffect } from 'react';
 import 'leaflet/dist/leaflet.css';
 import './styles.css';
+import { getData } from '../../store/reducer';
+import cn from 'classnames';
 
 const defaultIcon = new Icon({
   iconUrl: defaultMarker,
@@ -24,7 +26,7 @@ const selectedIcon = new Icon({
 function OfferMap({locationCenter, offers, className}: Props): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, locationCenter);
-  const selectedOffer = useAppSelector((state) => state.selectedOffer);
+  const {offerItem} = useAppSelector(getData);
 
   useEffect(() => {
     if (map) {
@@ -37,7 +39,7 @@ function OfferMap({locationCenter, offers, className}: Props): JSX.Element {
         });
 
         marker
-          .setIcon((offer.id === selectedOffer) ? selectedIcon : defaultIcon)
+          .setIcon((offer.id === offerItem?.id) ? selectedIcon : defaultIcon)
           .addTo(markerGroup);
 
         markerGroup.addTo(map);
@@ -47,11 +49,11 @@ function OfferMap({locationCenter, offers, className}: Props): JSX.Element {
         map.removeLayer(markerGroup);
       };
     }
-  }, [map, offers, className, selectedOffer]);
+  }, [map, offers, offerItem?.id]);
 
   return (
     <section
-      className={`map ${className}`}
+      className={cn('map', className)}
       ref={mapRef}
     >
     </section>

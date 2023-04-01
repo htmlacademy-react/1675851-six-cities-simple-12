@@ -7,9 +7,8 @@ export type AppDispatch = typeof store.dispatch;
 
 export type initialStateType = {
   offers: Offer[];
-  location: LocationRouteType | null | undefined;
-  locationCenter: CityLocation | null | undefined;
-  offerList: Offer[] | null;
+  locationName: LocationRouteType;
+  offerList: Offer[];
+  locationCenter: CityLocation | undefined;
   offerItem: Offer | null | undefined;
-  selectedOffer: number | null;
 }
