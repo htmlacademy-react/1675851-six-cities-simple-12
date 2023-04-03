@@ -14,12 +14,13 @@ const getLocationByPath = (path: string) => Object.keys(LocationRoute)
 function MainScreenContent(): JSX.Element {
   const {pathname} = useLocation();
   const dispatch = useAppDispatch();
-  const {offerList} = useAppSelector(getData);
+  const {offers, offerList} = useAppSelector(getData);
 
   useEffect(() => {
     dispatch(setLocationByName({locationName: getLocationByPath(pathname)}));
+    console.log(offers);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
+  }, [pathname, offers]);
 
   if (offerList.length) {
     return <MainScreenOffers offers={offerList} />;

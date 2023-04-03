@@ -1,13 +1,12 @@
 import { initialStateType } from './types';
-import { offers } from '../mocks/offers';
 import { createReducer } from '@reduxjs/toolkit';
-import { setLocationByName, setLocationById, setOfferItem, resetOfferItem } from './action';
+import { loadOffers, setLocationByName, setLocationById, setOfferItem, resetOfferItem } from './action';
 import { LocationRouteType } from '../types';
 
 const LOCATION_DEFAULT = 'Paris';
 
 const initialState: initialStateType = {
-  offers: offers,
+  offers: [],
   locationName: LOCATION_DEFAULT,
   offerList: [],
   locationCenter: {'latitude': 48.85661, 'longitude': 2.351499, 'zoom': 13},
@@ -18,6 +17,9 @@ const getData = (state: initialStateType) => state;
 
 const reducer = createReducer(initialState, (builder) => {
   builder
+    .addCase(loadOffers, (state, action) => {
+      state.offers = action.payload;
+    })
     .addCase(setLocationByName, (state, action) => {
       const {locationName} = action.payload;
 

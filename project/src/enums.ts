@@ -12,3 +12,8 @@ export enum LocationRoute {
   Hamburg = '/hamburg',
   Dusseldorf = '/dusseldorf'
 }
+
+export enum APIRoute {
+  Offers = '/hotels',
+  Comments = '/comments'
+}
