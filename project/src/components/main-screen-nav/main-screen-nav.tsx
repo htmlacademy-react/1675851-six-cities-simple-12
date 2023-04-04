@@ -1,5 +1,5 @@
 import { LocationRoute } from '../../enums';
-import { LocationRouteType } from '../../types';
+import { LocationRouteType } from '../../types/routes';
 import { NavLink } from 'react-router-dom';
 import cn from 'classnames';
 

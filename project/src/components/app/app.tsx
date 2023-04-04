@@ -6,10 +6,21 @@ import MainScreenContent from '../main-screen-content/main-screen-content';
 import OfferScreen from '../../pages/offer-screen/offer-screen';
 import LoginScreen from '../../pages/login-screen/login-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
+import Loader from '../loader/loader';
+import { useAppSelector } from '../../hooks';
+import { getData } from '../../store/reducer';
 
 const locationRoutes = Object.values(LocationRoute);
 
 function App(): JSX.Element {
+  const {isLoading} = useAppSelector(getData);
+
+  if (isLoading) {
+    return (
+      <Loader />
+    );
+  }
+
   return (
     <HelmetProvider>
       <BrowserRouter>

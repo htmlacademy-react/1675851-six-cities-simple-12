@@ -1,11 +1,12 @@
-import { initialStateType } from './types';
+import { initialStateType } from '../types/store';
 import { createReducer } from '@reduxjs/toolkit';
-import { loadOffers, setLocationByName, setLocationById, setOfferItem, resetOfferItem } from './action';
-import { LocationRouteType } from '../types';
+import { loadOffers, setLocationByName, setLocationById, setOfferItem, resetOfferItem, setLoader } from './action';
+import { LocationRouteType } from '../types/routes';
 
 const LOCATION_DEFAULT = 'Paris';
 
 const initialState: initialStateType = {
+  isLoading: false,
   offers: [],
   locationName: LOCATION_DEFAULT,
   offerList: [],
@@ -42,6 +43,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(resetOfferItem, (state) => {
       state.offerItem = null;
+    })
+    .addCase(setLoader, (state, action) => {
+      state.isLoading = action.payload;
     });
 });
 

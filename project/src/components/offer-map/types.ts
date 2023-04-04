@@ -1,4 +1,4 @@
-import { CityLocation, Offer } from '../../mocks/types';
+import { CityLocation, Offer } from '../../types/data';
 
 export type Props = {
   locationCenter: CityLocation | undefined;

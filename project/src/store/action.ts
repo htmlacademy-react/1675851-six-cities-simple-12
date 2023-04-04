@@ -1,7 +1,8 @@
 import { createAction } from '@reduxjs/toolkit';
-import { LocationRouteType } from '../types';
-import { Offer, Offers } from '../mocks/types';
+import { LocationRouteType } from '../types/routes';
+import { Offer, Offers } from '../types/data';
 
+export const setLoader = createAction<boolean>('setLoader');
 export const loadOffers = createAction<Offers>('loadOffers');
 export const setLocationByName = createAction<{locationName: LocationRouteType}>('setLocationByName');
 export const setLocationById = createAction<{offerId: number}>('setLocationById');

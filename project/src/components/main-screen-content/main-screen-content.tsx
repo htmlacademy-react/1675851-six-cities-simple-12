@@ -1,5 +1,5 @@
 import { LocationRoute } from '../../enums';
-import { LocationRouteType } from '../../types';
+import { LocationRouteType } from '../../types/routes';
 import { useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getData } from '../../store/reducer';
