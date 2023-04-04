@@ -18,7 +18,6 @@ function MainScreenContent(): JSX.Element {
 
   useEffect(() => {
     dispatch(setLocationByName({locationName: getLocationByPath(pathname)}));
-    console.log(offers);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, offers]);
 
