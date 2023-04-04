@@ -1,46 +1,52 @@
-import { initialStateType } from './types';
-import { offers } from '../mocks/offers';
+import { initialStateType } from '../types/store';
 import { createReducer } from '@reduxjs/toolkit';
-import { setLocationByName, setLocationById, setOfferList, setOfferItem, setLocationCenter, setSelectedOffer } from './action';
-import { LocationRouteType } from '../types';
+import { loadOffers, setLocationByName, setLocationById, setOfferItem, resetOfferItem, setLoader } from './action';
+import { LocationRouteType } from '../types/routes';
+
+const LOCATION_DEFAULT = 'Paris';
 
 const initialState: initialStateType = {
-  offers: offers,
-  location: null,
-  locationCenter: null,
-  offerList: null,
+  isLoading: false,
+  offers: [],
+  locationName: LOCATION_DEFAULT,
+  offerList: [],
+  locationCenter: {'latitude': 48.85661, 'longitude': 2.351499, 'zoom': 13},
   offerItem: null,
-  selectedOffer: null,
 };
+
+const getData = (state: initialStateType) => state;
 
 const reducer = createReducer(initialState, (builder) => {
   builder
+    .addCase(loadOffers, (state, action) => {
+      state.offers = action.payload;
+    })
     .addCase(setLocationByName, (state, action) => {
       const {locationName} = action.payload;
 
-      state.location = locationName;
+      state.locationName = locationName;
+      state.offerList = state.offers.filter((offer) => offer.city.name === locationName);
+      state.locationCenter = state.offerList.find((offerItem) => offerItem.city.name === locationName)?.city.location;
     })
     .addCase(setLocationById, (state, action) => {
       const {offerId} = action.payload;
 
-      state.location = state.offers.find((offer) => offer.id === offerId)?.city.name as LocationRouteType;
-    })
-    .addCase(setLocationCenter, (state) => {
-      state.locationCenter = state.offerList?.find((offerItem) => offerItem.city.name === state.location)?.city.location;
-    })
-    .addCase(setOfferList, (state) => {
-      state.offerList = state.offers.filter((offer) => offer.city.name === state.location);
+      state.locationName = state.offers.find((offer) => offer.id === offerId)?.city.name as LocationRouteType;
+      state.offerList = state.offers.filter((offer) => offer.city.name === state.locationName);
+      state.locationCenter = state.offerList.find((offerItem) => offerItem.city.name === state.locationName)?.city.location;
+      state.offerItem = state.offerList.find((offer) => offer.id === offerId);
     })
     .addCase(setOfferItem, (state, action) => {
-      const {offerId} = action.payload;
+      const {offerItem} = action.payload;
 
-      state.offerItem = state.offerList?.find((offerItem) => offerItem.id === offerId);
+      state.offerItem = offerItem;
     })
-    .addCase(setSelectedOffer, (state, action) => {
-      const {offerId} = action.payload;
-
-      state.selectedOffer = offerId;
+    .addCase(resetOfferItem, (state) => {
+      state.offerItem = null;
+    })
+    .addCase(setLoader, (state, action) => {
+      state.isLoading = action.payload;
     });
 });
 
-export { reducer };
+export { reducer, getData };

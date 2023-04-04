@@ -1,5 +1,5 @@
-import { Props } from '../review-form/types';
 import { Fragment } from 'react';
+import { Props } from './types';
 
 function RatingOption({option, onChange}: Props): JSX.Element {
   return (

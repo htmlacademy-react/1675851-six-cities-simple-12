@@ -1,5 +1,4 @@
 import { Helmet } from 'react-helmet-async';
-import Icons from '../../components/icons/icons';
 import HeaderLogo from '../../components/header-logo/header-logo';
 
 function LoginScreen(): JSX.Element {
@@ -8,7 +7,6 @@ function LoginScreen(): JSX.Element {
       <Helmet>
         <title>6 Cities &mdash; Login page</title>
       </Helmet>
-      <Icons />
       <header className="header">
         <div className="container">
           <div className="header__wrapper">

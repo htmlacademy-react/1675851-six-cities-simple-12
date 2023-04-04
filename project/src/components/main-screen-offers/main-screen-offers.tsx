@@ -1,9 +1,12 @@
 import { Props } from './types';
+import { useAppSelector } from '../../hooks';
+import { getData } from '../../store/reducer';
 import OfferList from '../offer-list/offer-list';
 import OfferMap from '../offer-map/offer-map';
-import { MapClassName } from '../../enums';
 
-function MainScreenOffers({locationName, offers, locationCenter}: Props): JSX.Element {
+function MainScreenOffers({offers}: Props): JSX.Element {
+  const {locationName, locationCenter} = useAppSelector(getData);
+
   return (
     <div className="cities__places-container container">
       <section className="cities__places places">
@@ -32,7 +35,7 @@ function MainScreenOffers({locationName, offers, locationCenter}: Props): JSX.El
         <OfferMap
           locationCenter={locationCenter}
           offers={offers}
-          className={MapClassName.Location}
+          className={'cities__map'}
         />
       </div>
     </div>

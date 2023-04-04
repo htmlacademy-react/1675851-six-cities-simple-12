@@ -13,7 +13,7 @@ export enum LocationRoute {
   Dusseldorf = '/dusseldorf'
 }
 
-export enum MapClassName {
-  Location = 'cities__map',
-  Offer = 'property__map'
+export enum APIRoute {
+  Offers = '/hotels',
+  Comments = '/comments'
 }

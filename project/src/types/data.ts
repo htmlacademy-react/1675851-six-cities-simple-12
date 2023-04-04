@@ -1,3 +1,5 @@
+export type Offers = Offer[];
+
 export type Offer = {
   city: City;
   previewImage: string;

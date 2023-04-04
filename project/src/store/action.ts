@@ -1,9 +1,10 @@
 import { createAction } from '@reduxjs/toolkit';
-import { LocationRouteType } from '../types';
+import { LocationRouteType } from '../types/routes';
+import { Offer, Offers } from '../types/data';
 
-export const setLocationByName = createAction<{locationName: LocationRouteType | undefined}>('app/setLocationByName');
-export const setLocationById = createAction<{offerId: number | null}>('app/setLocationById');
-export const setLocationCenter = createAction('offerList/setLocationCenter');
-export const setOfferList = createAction('offerList/setOfferList');
-export const setOfferItem = createAction<{offerId: number | null}>('setOfferItem');
-export const setSelectedOffer = createAction<{offerId: number | null}>('offerList/setSelectedOffer');
+export const setLoader = createAction<boolean>('setLoader');
+export const loadOffers = createAction<Offers>('loadOffers');
+export const setLocationByName = createAction<{locationName: LocationRouteType}>('setLocationByName');
+export const setLocationById = createAction<{offerId: number}>('setLocationById');
+export const setOfferItem = createAction<{offerItem: Offer | null | undefined}>('setOfferItem');
+export const resetOfferItem = createAction('resetOfferItem');
