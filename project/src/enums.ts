@@ -1,7 +1,8 @@
 export enum AppRoute {
   Root = '/',
   Offer = '/offer',
-  Login = '/login'
+  Login = '/login',
+  NotFound = '/404'
 }
 
 export enum LocationRoute {
@@ -15,5 +16,37 @@ export enum LocationRoute {
 
 export enum APIRoute {
   Offers = '/hotels',
-  Comments = '/comments'
+  Comments = '/comments',
+  Login = '/login',
+  Logout = '/logout'
+}
+
+export enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN'
+}
+
+export enum FilterType {
+  Default = 'Paris',
+  Cologne = 'Cologne',
+  Brussels = 'Brussels',
+  Amsterdam = 'Amsterdam',
+  Hamburg = 'Hamburg',
+  Dusseldorf = 'Dusseldorf'
+}
+
+export enum SortType {
+  Default = 'popular',
+  PriceLow = 'pricelow',
+  PriceHigh = 'pricehigh',
+  RatingHigh = 'ratinghigh'
+}
+
+export enum RatingScore {
+  Terribly = 1,
+  Badly = 2,
+  NotBad = 3,
+  Good = 4,
+  Perfect = 5
 }

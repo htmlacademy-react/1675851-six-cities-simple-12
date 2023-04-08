@@ -1,24 +1,23 @@
-import { LocationRoute } from '../../enums';
-import { LocationRouteType } from '../../types/routes';
 import { NavLink } from 'react-router-dom';
 import cn from 'classnames';
+import { locationTitleMap } from '../../maps';
 
-const locationList = Object.keys(LocationRoute);
+const locationList = Object.entries(locationTitleMap).map(([route, title]) => ({route, title}));
 
 function MainScreenNav(): JSX.Element {
   return (
     <ul className="locations__list tabs__list">
       {
-        locationList.map((locationItem) => (
+        locationList.map(({route, title}) => (
           <li
             className="locations__item"
-            key={locationItem}
+            key={title}
           >
             <NavLink
               className={({isActive}) => cn('locations__item-link tabs__item', {'tabs__item--active': isActive})}
-              to={LocationRoute[locationItem as LocationRouteType]}
+              to={route}
             >
-              <span>{locationItem}</span>
+              <span>{title}</span>
             </NavLink>
           </li>
         ))

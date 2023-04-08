@@ -1,7 +1,9 @@
 import { useState, useCallback, ChangeEvent } from 'react';
 import { Form } from './types';
-import { options } from './utils';
+import { ratingTitleMap } from '../../maps';
 import RatingItem from '../rating-item/rating-item';
+
+export const ratingList = Object.entries(ratingTitleMap).map(([value, title]) => ({value, title})).reverse();
 
 function ReviewForm(): JSX.Element {
   const [/*formData*/, setFormData] = useState<Form>({ rating: 0, review: '' });
@@ -15,10 +17,10 @@ function ReviewForm(): JSX.Element {
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {
-          options.map((option) => (
+          ratingList.map((ratingItem) => (
             <RatingItem
-              key={option.value}
-              option={option}
+              key={ratingItem.title}
+              option={ratingItem}
               onChange={handleChange}
             />
           ))

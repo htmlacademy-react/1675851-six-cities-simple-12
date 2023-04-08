@@ -6,6 +6,6 @@ export type Props = {
 }
 
 export type RatingOption = {
-  value: number;
+  value: string;
   title: string;
 }
