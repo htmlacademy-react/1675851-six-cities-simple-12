@@ -41,3 +41,28 @@ export type OfferLocation = {
   longitude: number;
   zoom: number;
 }
+
+export type Comments = Comment[];
+
+export type Comment = {
+  comment: string;
+  date: string;
+  id: number;
+  rating: number;
+  user: Host;
+}
+
+export type AuthData = {
+  email: string;
+  password: string;
+};
+
+export type UserData = {
+  id: number;
+  email: string;
+  token: string;
+};
+
+export type OfferId = {
+  id: string;
+}

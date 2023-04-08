@@ -1,6 +1,6 @@
 import { Props } from './types';
 import { useAppDispatch } from '../../hooks';
-import { setOfferItem, resetOfferItem } from '../../store/action';
+import { setSelectedOffer, resetSelectedOffer } from '../../store/action';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../enums';
 import './styles.css';
@@ -11,8 +11,8 @@ function OfferItem({offer}: Props): JSX.Element {
   return (
     <article
       className="cities__card place-card"
-      onMouseOver={() => dispatch(setOfferItem({offerItem: offer}))}
-      onMouseLeave={() => dispatch(resetOfferItem())}
+      onMouseOver={() => dispatch(setSelectedOffer(offer))}
+      onMouseLeave={() => dispatch(resetSelectedOffer())}
     >
       {offer.isPremium ? <div className="place-card__mark"><span>Premium</span></div> : ''}
       <div className="cities__image-wrapper place-card__image-wrapper">

@@ -1,14 +1,14 @@
 import { Props } from './types';
 import { useAppSelector } from '../../hooks';
-import { getData } from '../../store/reducer';
 import { Fragment } from 'react';
 import cn from 'classnames';
 import ReviewList from '../review-list/review-list';
 import OfferMap from '../offer-map/offer-map';
 import OfferList from '../offer-list/offer-list';
+import { getData } from '../../store/selectors';
 
 function OfferScreenContent({offer}: Props): JSX.Element {
-  const {offerList, locationCenter} = useAppSelector(getData);
+  const {locationPoint, nearbyOffers} = useAppSelector(getData);
 
   return (
     <Fragment>
@@ -78,8 +78,9 @@ function OfferScreenContent({offer}: Props): JSX.Element {
           </div>
         </div>
         <OfferMap
-          locationCenter={locationCenter}
-          offers={offerList}
+          locationPoint={locationPoint}
+          nearbyOffers={nearbyOffers}
+          offer={offer}
           className={'property__map'}
         />
       </section>
@@ -87,7 +88,7 @@ function OfferScreenContent({offer}: Props): JSX.Element {
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
           <div className="near-places__list places__list">
-            <OfferList offers={offerList}/>
+            <OfferList offers={nearbyOffers}/>
           </div>
         </section>
       </div>

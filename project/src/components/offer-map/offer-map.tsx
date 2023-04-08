@@ -8,48 +8,75 @@ import { useAppSelector } from '../../hooks';
 import { useEffect } from 'react';
 import 'leaflet/dist/leaflet.css';
 import './styles.css';
-import { getData } from '../../store/reducer';
 import cn from 'classnames';
+import { getData } from '../../store/selectors';
+import { ICON_SIZE, ICON_ANCHOR } from '../../consts';
 
 const defaultIcon = new Icon({
   iconUrl: defaultMarker,
-  iconSize: [40.5, 58.5],
-  iconAnchor: [20.25, 58.5],
+  iconSize: ICON_SIZE,
+  iconAnchor: ICON_ANCHOR
 });
 
 const selectedIcon = new Icon({
   iconUrl: selectedMarker,
-  iconSize: [40.5, 58.5],
-  iconAnchor: [20.25, 58.5],
+  iconSize: ICON_SIZE,
+  iconAnchor: ICON_ANCHOR
 });
 
-function OfferMap({locationCenter, offers, className}: Props): JSX.Element {
+function OfferMap({className, locationPoint, offer, nearbyOffers, locationOffers}: Props): JSX.Element {
   const mapRef = useRef(null);
-  const map = useMap(mapRef, locationCenter);
-  const {offerItem} = useAppSelector(getData);
+  const map = useMap(mapRef, locationPoint);
+  const {selectedOffer} = useAppSelector(getData);
 
   useEffect(() => {
     if (map) {
       const markerGroup = new LayerGroup();
 
-      offers.forEach((offer) => {
+      if (offer) {
         const marker = new Marker({
           lat: offer.location.latitude,
           lng: offer.location.longitude
         });
 
         marker
-          .setIcon((offer.id === offerItem?.id) ? selectedIcon : defaultIcon)
+          .setIcon(selectedIcon)
           .addTo(markerGroup);
+      }
 
-        markerGroup.addTo(map);
-      });
+      if (nearbyOffers) {
+        nearbyOffers.forEach((nearbyOffer) => {
+          const marker = new Marker({
+            lat: nearbyOffer.location.latitude,
+            lng: nearbyOffer.location.longitude
+          });
+
+          marker
+            .setIcon(defaultIcon)
+            .addTo(markerGroup);
+        });
+      }
+
+      if (locationOffers) {
+        locationOffers.forEach((locationOffer) => {
+          const marker = new Marker({
+            lat: locationOffer.location.latitude,
+            lng: locationOffer.location.longitude
+          });
+
+          marker
+            .setIcon((selectedOffer?.id === locationOffer.id) ? selectedIcon : defaultIcon)
+            .addTo(markerGroup);
+        });
+      }
+
+      markerGroup.addTo(map);
 
       return () => {
         map.removeLayer(markerGroup);
       };
     }
-  }, [map, offers, offerItem?.id]);
+  }, [locationOffers, map, nearbyOffers, offer, selectedOffer]);
 
   return (
     <section

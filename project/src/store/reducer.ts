@@ -1,52 +1,89 @@
-import { initialStateType } from '../types/store';
+import { InitialState } from '../types/store';
 import { createReducer } from '@reduxjs/toolkit';
-import { loadOffers, setLocationByName, setLocationById, setOfferItem, resetOfferItem, setLoader } from './action';
-import { LocationRouteType } from '../types/routes';
+import { LOCATION_POINT_DEFAULT } from '../consts';
+import { FilterType, SortType, AuthorizationStatus } from '../enums';
+import { filterCallbackMap, sortCallbackMap} from '../maps';
 
-const LOCATION_DEFAULT = 'Paris';
+import {
+  setLoader,
+  loadOffers,
+  setFilter,
+  setSort,
+  setLocationOffers,
+  setLocationPointByName,
+  setLocationPointById,
+  setSelectedOffer,
+  resetSelectedOffer,
+  setOfferId,
+  loadOffer,
+  loadOffersNearby,
+  loadComments,
+  requireAuthorization
+} from './action';
 
-const initialState: initialStateType = {
+const initialState: InitialState = {
   isLoading: false,
   offers: [],
-  locationName: LOCATION_DEFAULT,
-  offerList: [],
-  locationCenter: {'latitude': 48.85661, 'longitude': 2.351499, 'zoom': 13},
-  offerItem: null,
+  filter: filterCallbackMap[FilterType.Default],
+  sort: sortCallbackMap[SortType.Default],
+  locationOffers: [],
+  locationPoint: LOCATION_POINT_DEFAULT,
+  selectedOffer: null,
+  offerId: null,
+  offer: null,
+  nearbyOffers: [],
+  comments: [],
+  authorizationStatus: AuthorizationStatus.Unknown
 };
-
-const getData = (state: initialStateType) => state;
 
 const reducer = createReducer(initialState, (builder) => {
   builder
+    .addCase(setLoader, (state) => {
+      state.isLoading = true;
+    })
     .addCase(loadOffers, (state, action) => {
       state.offers = action.payload;
+      state.isLoading = false;
     })
-    .addCase(setLocationByName, (state, action) => {
-      const {locationName} = action.payload;
-
-      state.locationName = locationName;
-      state.offerList = state.offers.filter((offer) => offer.city.name === locationName);
-      state.locationCenter = state.offerList.find((offerItem) => offerItem.city.name === locationName)?.city.location;
+    .addCase(setFilter, (state, action) => {
+      state.filter = action.payload;
     })
-    .addCase(setLocationById, (state, action) => {
-      const {offerId} = action.payload;
-
-      state.locationName = state.offers.find((offer) => offer.id === offerId)?.city.name as LocationRouteType;
-      state.offerList = state.offers.filter((offer) => offer.city.name === state.locationName);
-      state.locationCenter = state.offerList.find((offerItem) => offerItem.city.name === state.locationName)?.city.location;
-      state.offerItem = state.offerList.find((offer) => offer.id === offerId);
+    .addCase(setSort, (state, action) => {
+      state.sort = action.payload;
     })
-    .addCase(setOfferItem, (state, action) => {
-      const {offerItem} = action.payload;
-
-      state.offerItem = offerItem;
+    .addCase(setLocationOffers, (state) => {
+      state.locationOffers = state.offers.filter(state.filter).sort(state.sort);
     })
-    .addCase(resetOfferItem, (state) => {
-      state.offerItem = null;
+    .addCase(setLocationPointByName, (state, action) => {
+      const offerItem = state.offers.find((offer) => offer.city.name === action.payload);
+      state.locationPoint = offerItem ? offerItem.city.location : LOCATION_POINT_DEFAULT;
     })
-    .addCase(setLoader, (state, action) => {
-      state.isLoading = action.payload;
+    .addCase(setLocationPointById, (state, action) => {
+      const offerItem = state.offers.find((offer) => offer.id === action.payload);
+      state.locationPoint = offerItem ? offerItem.city.location : LOCATION_POINT_DEFAULT;
+    })
+    .addCase(setSelectedOffer, (state, action) => {
+      state.selectedOffer = action.payload;
+    })
+    .addCase(resetSelectedOffer, (state) => {
+      state.selectedOffer = null;
+    })
+    .addCase(setOfferId, (state, action) => {
+      state.offerId = action.payload;
+    })
+    .addCase(loadOffer, (state, action) => {
+      state.offer = action.payload;
+      state.isLoading = false;
+    })
+    .addCase(loadOffersNearby, (state, action) => {
+      state.nearbyOffers = action.payload;
+    })
+    .addCase(loadComments, (state, action) => {
+      state.comments = action.payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
     });
 });
 
-export { reducer, getData };
+export { reducer };

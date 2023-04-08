@@ -1,0 +1,7 @@
+.login__input:invalid:not(:placeholder-shown) {
+  border-color: red;
+}
+
+.login__input:valid:not(:placeholder-shown) {
+  border-color: green;
+}

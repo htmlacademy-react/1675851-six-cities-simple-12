@@ -1,17 +1,17 @@
 import { Props } from './types';
 import { useAppSelector } from '../../hooks';
-import { getData } from '../../store/reducer';
 import OfferList from '../offer-list/offer-list';
 import OfferMap from '../offer-map/offer-map';
+import { getData } from '../../store/selectors';
 
 function MainScreenOffers({offers}: Props): JSX.Element {
-  const {locationName, locationCenter} = useAppSelector(getData);
+  const {locationPoint, locationOffers, selectedOffer} = useAppSelector(getData);
 
   return (
     <div className="cities__places-container container">
       <section className="cities__places places">
         <h2 className="visually-hidden">Places</h2>
-        <b className="places__found">{offers.length} places to stay in {locationName}</b>
+        <b className="places__found">{offers.length} places to stay in {offers[0].city.name}</b>
         <form className="places__sorting" action="#" method="get">
           <span className="places__sorting-caption">Sort by&nbsp;</span>
           <span className="places__sorting-type" tabIndex={0}>
@@ -33,8 +33,9 @@ function MainScreenOffers({offers}: Props): JSX.Element {
       </section>
       <div className="cities__right-section">
         <OfferMap
-          locationCenter={locationCenter}
-          offers={offers}
+          locationPoint={locationPoint}
+          locationOffers={locationOffers}
+          selectedOffer={selectedOffer}
           className={'cities__map'}
         />
       </div>

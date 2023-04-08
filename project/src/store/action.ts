@@ -1,10 +1,20 @@
 import { createAction } from '@reduxjs/toolkit';
-import { LocationRouteType } from '../types/routes';
-import { Offer, Offers } from '../types/data';
+import { Offers, Offer, Comments } from '../types/data';
+import { FilterCallback, SortCallback } from '../maps';
+import { AuthorizationStatusType } from '../types/routes';
 
-export const setLoader = createAction<boolean>('setLoader');
-export const loadOffers = createAction<Offers>('loadOffers');
-export const setLocationByName = createAction<{locationName: LocationRouteType}>('setLocationByName');
-export const setLocationById = createAction<{offerId: number}>('setLocationById');
-export const setOfferItem = createAction<{offerItem: Offer | null | undefined}>('setOfferItem');
-export const resetOfferItem = createAction('resetOfferItem');
+export const setLoader = createAction('data/setLoader');
+export const loadOffers = createAction<Offers>('data/loadOffers');
+export const setFilter = createAction<FilterCallback>('location/setFilter');
+export const setSort = createAction<SortCallback>('location/setSort');
+export const setLocationOffers = createAction('location/setLocationOffers');
+export const setLocationPointByName = createAction<string>('location/setLocationPointByName');
+export const setLocationPointById = createAction<number>('location/setLocationPointById');
+export const setSelectedOffer = createAction<Offer | null>('location/setSelectedOffer');
+export const resetSelectedOffer = createAction('location/resetSelectedOffer');
+export const setOfferId = createAction<number | null>('offer/setOfferId');
+export const loadOffer = createAction<Offer>('data/loadOffer');
+export const loadOffersNearby = createAction<Offers>('data/loadOffersNearby');
+export const loadComments = createAction<Comments>('data/loadComments');
+export const requireAuthorization = createAction<AuthorizationStatusType>('user/requireAuthorization');
+export const redirectToRoute = createAction<string>('app/redirectToRoute');

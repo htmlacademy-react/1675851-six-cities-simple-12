@@ -7,8 +7,19 @@ const ConditionalLink = ({children}: Props): JSX.Element => {
   const {pathname} = useLocation();
 
   switch (pathname) {
-    case LocationRoute.Paris: return <div className="header__logo-link">{children}</div>;
-    default: return <Link className="header__logo-link" to={LocationRoute.Paris}>{children}</Link>;
+    case LocationRoute.Paris:
+      return (
+        <div className="header__logo-link">
+          {children}
+        </div>
+      );
+
+    default:
+      return (
+        <Link className="header__logo-link" to={LocationRoute.Paris}>
+          {children}
+        </Link>
+      );
   }
 };
 

@@ -1,63 +1,63 @@
-import { HelmetProvider } from 'react-helmet-async';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { AppRoute, LocationRoute } from '../../enums';
 import MainScreen from '../../pages/main-screen/main-screen';
 import MainScreenContent from '../main-screen-content/main-screen-content';
 import OfferScreen from '../../pages/offer-screen/offer-screen';
 import LoginScreen from '../../pages/login-screen/login-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
-import Loader from '../loader/loader';
 import { useAppSelector } from '../../hooks';
-import { getData } from '../../store/reducer';
+import { AuthorizationStatus } from '../../enums';
+import { getData } from '../../store/selectors';
+import ScrollToTop from '../scroll-to-top/scroll-to-top';
+import { Fragment } from 'react';
+import Loader from '../loader/loader';
 
 const locationRoutes = Object.values(LocationRoute);
 
 function App(): JSX.Element {
-  const {isLoading} = useAppSelector(getData);
-
-  if (isLoading) {
-    return (
-      <Loader />
-    );
-  }
+  const {authorizationStatus, isLoading} = useAppSelector(getData);
 
   return (
-    <HelmetProvider>
-      <BrowserRouter>
-        <Routes>
+    <Fragment>
+      <ScrollToTop />
+
+      <Routes>
+        <Route
+          path={AppRoute.Root}
+          element={isLoading ? <Loader /> : <MainScreen />}
+        >
           <Route
-            path={AppRoute.Root}
-            element={<MainScreen />}
-          >
-            <Route
-              index
-              element={<Navigate replace to={LocationRoute.Paris} />}
-            />
-            {
-              locationRoutes.map((locationRoute) => (
-                <Route
-                  key={locationRoute}
-                  path={locationRoute}
-                  element={<MainScreenContent />}
-                />
-              ))
-            }
-          </Route>
-          <Route
-            path={`${AppRoute.Offer}/:id`}
-            element={<OfferScreen />}
+            index
+            element={<Navigate replace to={LocationRoute.Paris} />}
           />
-          <Route
-            path={AppRoute.Login}
-            element={<LoginScreen />}
-          />
-          <Route
-            path='*'
-            element={<NotFoundScreen />}
-          />
-        </Routes>
-      </BrowserRouter>
-    </HelmetProvider>
+          {
+            locationRoutes.map((locationRoute) => (
+              <Route
+                key={locationRoute}
+                path={locationRoute}
+                element={<MainScreenContent />}
+              />
+            ))
+          }
+        </Route>
+        <Route
+          path={`${AppRoute.Offer}/:id`}
+          element={<OfferScreen />}
+        />
+        <Route
+          path={AppRoute.Login}
+          element={
+            authorizationStatus === AuthorizationStatus.Auth ?
+              <Navigate replace to={LocationRoute.Paris} /> :
+              <LoginScreen />
+          }
+        />
+        <Route
+          path='*'
+          element={<NotFoundScreen />}
+        />
+      </Routes>
+    </Fragment>
   );
 }
 
