@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getData } from '../../store/selectors';
-import { setSort, setLocationOffers } from '../../store/action';
+import { setSort } from '../../store/action';
 import { SortType } from '../../enums';
 import { sortTitleMap, sortCallbackMap } from '../../maps';
 import cn from 'classnames';
@@ -45,11 +45,10 @@ function Sort(): JSX.Element {
               )}
               value={optionValue}
               tabIndex={0}
-              key={optionValue}
+              key={optionTitle}
               onClick={
                 () => {
                   dispatch(setSort(sortCallbackMap[optionValue]));
-                  dispatch(setLocationOffers());
                   setTitle(optionTitle);
                   setDropdown(false);
                 }

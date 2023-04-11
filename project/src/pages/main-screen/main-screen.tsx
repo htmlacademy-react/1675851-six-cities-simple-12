@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import HeaderLogo from '../../components/header-logo/header-logo';
 import HeaderUser from '../../components/header-user/header-user';
-import LocationNav from '../../components/main-screen-nav/main-screen-nav';
+import Filter from '../../components/filter/filter';
 import { Outlet } from 'react-router-dom';
 
 function MainScreen(): JSX.Element {
@@ -22,7 +22,7 @@ function MainScreen(): JSX.Element {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <LocationNav />
+            <Filter />
           </section>
         </div>
         <div className="cities">

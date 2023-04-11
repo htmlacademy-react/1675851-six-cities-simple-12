@@ -1,7 +1,7 @@
 import { InitialState } from '../types/store';
 import { createReducer } from '@reduxjs/toolkit';
 import { LOCATION_POINT_DEFAULT } from '../consts';
-import { FilterType, SortType, AuthorizationStatus } from '../enums';
+import { LocationRoute, SortType, AuthorizationStatus } from '../enums';
 import { filterCallbackMap, sortCallbackMap} from '../maps';
 
 import {
@@ -9,9 +9,6 @@ import {
   loadOffers,
   setFilter,
   setSort,
-  setLocationOffers,
-  setLocationPointByName,
-  setLocationPointById,
   setSelectedOffer,
   resetSelectedOffer,
   setOfferId,
@@ -24,7 +21,7 @@ import {
 const initialState: InitialState = {
   isLoading: false,
   offers: [],
-  filter: filterCallbackMap[FilterType.Default],
+  filter: filterCallbackMap[LocationRoute.Paris],
   sort: sortCallbackMap[SortType.Default],
   locationOffers: [],
   locationPoint: LOCATION_POINT_DEFAULT,
@@ -47,20 +44,12 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setFilter, (state, action) => {
       state.filter = action.payload;
+      state.locationOffers = state.offers.filter(state.filter).sort(state.sort);
+      state.locationPoint = state.locationOffers[0].city.location ?? LOCATION_POINT_DEFAULT;
     })
     .addCase(setSort, (state, action) => {
       state.sort = action.payload;
-    })
-    .addCase(setLocationOffers, (state) => {
       state.locationOffers = state.offers.filter(state.filter).sort(state.sort);
-    })
-    .addCase(setLocationPointByName, (state, action) => {
-      const offerItem = state.offers.find((offer) => offer.city.name === action.payload);
-      state.locationPoint = offerItem ? offerItem.city.location : LOCATION_POINT_DEFAULT;
-    })
-    .addCase(setLocationPointById, (state, action) => {
-      const offerItem = state.offers.find((offer) => offer.id === action.payload);
-      state.locationPoint = offerItem ? offerItem.city.location : LOCATION_POINT_DEFAULT;
     })
     .addCase(setSelectedOffer, (state, action) => {
       state.selectedOffer = action.payload;

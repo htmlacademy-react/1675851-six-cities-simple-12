@@ -12,7 +12,6 @@ import {
   loadOffer,
   loadOffersNearby,
   loadComments,
-  setLocationPointById,
   requireAuthorization,
   redirectToRoute
 } from './action';
@@ -58,7 +57,6 @@ export const fetchOfferAction = createAsyncThunk<void, OfferId, {
         dispatch(loadOffer(offer.data));
         dispatch(loadOffersNearby(offersNearby.data));
         dispatch(loadComments(offerComments.data));
-        dispatch(setLocationPointById(Number(id)));
       })
       .catch((error: AxiosError) => handleStatus404(error, dispatch));
   }

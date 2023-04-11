@@ -27,15 +27,6 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN'
 }
 
-export enum FilterType {
-  Default = 'Paris',
-  Cologne = 'Cologne',
-  Brussels = 'Brussels',
-  Amsterdam = 'Amsterdam',
-  Hamburg = 'Hamburg',
-  Dusseldorf = 'Dusseldorf'
-}
-
 export enum SortType {
   Default = 'popular',
   PriceLow = 'pricelow',
