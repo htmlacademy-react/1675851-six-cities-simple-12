@@ -4,12 +4,10 @@ import selectedMarker from './pin-active.svg';
 import { Props } from './types';
 import { useRef } from 'react';
 import useMap from '../../hooks/use-map/use-map';
-import { useAppSelector } from '../../hooks';
 import { useEffect } from 'react';
 import 'leaflet/dist/leaflet.css';
 import './styles.css';
 import cn from 'classnames';
-import { getData } from '../../store/selectors';
 import { ICON_SIZE, ICON_ANCHOR } from '../../consts';
 
 const defaultIcon = new Icon({
@@ -24,10 +22,9 @@ const selectedIcon = new Icon({
   iconAnchor: ICON_ANCHOR
 });
 
-function OfferMap({className, locationPoint, offer, nearbyOffers, locationOffers}: Props): JSX.Element {
+function OfferMap({locationPoint, locationOffers, selectedOffer, offer, nearbyOffers, className}: Props): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, locationPoint);
-  const {selectedOffer} = useAppSelector(getData);
 
   useEffect(() => {
     if (map) {

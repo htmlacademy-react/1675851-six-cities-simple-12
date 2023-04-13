@@ -52,17 +52,23 @@ export type Comment = {
   user: Host;
 }
 
+export type User = {
+  avatarUrl: string;
+  email: string;
+  id: number;
+  isPro: boolean;
+  name: string;
+  token: string;
+}
+
+export type OfferId = string;
+
 export type AuthData = {
   email: string;
   password: string;
-};
+}
 
-export type UserData = {
-  id: number;
-  email: string;
-  token: string;
-};
-
-export type OfferId = {
-  id: string;
+export type CommentData = {
+  rating: number;
+  comment: string;
 }

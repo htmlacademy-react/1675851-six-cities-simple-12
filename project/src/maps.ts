@@ -1,8 +1,8 @@
 import { Offer } from './types/data';
-import { LocationRoute, FilterType, SortType, RatingScore } from './enums';
+import { LocationRoute, SortType, RatingScore } from './enums';
 import { StatusCodes } from 'http-status-codes';
 
-export const locationTitleMap = {
+export const filterTitleMap = {
   [LocationRoute.Paris]: 'Paris',
   [LocationRoute.Cologne]: 'Cologne',
   [LocationRoute.Brussels]: 'Brussels',
@@ -15,12 +15,12 @@ export type FilterCallback = (offer: Offer) => boolean;
 export type FilterCallbackMap = Record<string, FilterCallback>;
 
 export const filterCallbackMap: FilterCallbackMap = {
-  [FilterType.Default]: (offer: Offer) => offer.city.name === 'Paris',
-  [FilterType.Cologne]: (offer: Offer) => offer.city.name === 'Cologne',
-  [FilterType.Brussels]: (offer: Offer) => offer.city.name === 'Brussels',
-  [FilterType.Amsterdam]: (offer: Offer) => offer.city.name === 'Amsterdam',
-  [FilterType.Hamburg]: (offer: Offer) => offer.city.name === 'Hamburg',
-  [FilterType.Dusseldorf]: (offer: Offer) => offer.city.name === 'Dusseldorf'
+  [LocationRoute.Paris]: (offer: Offer) => offer.city.name === 'Paris',
+  [LocationRoute.Cologne]: (offer: Offer) => offer.city.name === 'Cologne',
+  [LocationRoute.Brussels]: (offer: Offer) => offer.city.name === 'Brussels',
+  [LocationRoute.Amsterdam]: (offer: Offer) => offer.city.name === 'Amsterdam',
+  [LocationRoute.Hamburg]: (offer: Offer) => offer.city.name === 'Hamburg',
+  [LocationRoute.Dusseldorf]: (offer: Offer) => offer.city.name === 'Dusseldorf'
 };
 
 export type SortCallback = (offerA: Offer, offerB: Offer) => number;

@@ -14,3 +14,5 @@ export const LOCATION_POINT_DEFAULT: CityLocation = {
 };
 
 export const EMAIL_PATTERN = /.+@.+\..+/i;
+
+export const REDIRECT_ACTION = 'app/redirectToRoute';
