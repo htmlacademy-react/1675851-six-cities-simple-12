@@ -1,0 +1,16 @@
+.property__inside-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.property__inside-item {
+  width: auto;
+  max-width: none;
+  padding-left: 0;
+}
+
+.property__inside-item::before {
+  display: none;
+}

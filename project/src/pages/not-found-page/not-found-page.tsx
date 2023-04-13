@@ -1,22 +1,16 @@
-import { Helmet } from 'react-helmet-async';
-import HeaderLogo from '../../components/header-logo/header-logo';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../enums';
 import './styles.css';
+import Header from '../../components/header/header';
 
-function NotFoundScreen(): JSX.Element {
+const TITLE = '6 Cities — 404 page';
+
+function NotFoundPage(): JSX.Element {
   return (
     <div className="page page--gray">
-      <Helmet>
-        <title>404 &mdash; Page not found</title>
-      </Helmet>
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <HeaderLogo />
-          </div>
-        </div>
-      </header>
+      <Header
+        title={TITLE}
+      />
       <main className="page__main">
         <div className="container">
           <section className="not-found">
@@ -32,4 +26,4 @@ function NotFoundScreen(): JSX.Element {
   );
 }
 
-export default NotFoundScreen;
+export default NotFoundPage;

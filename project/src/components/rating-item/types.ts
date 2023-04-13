@@ -2,10 +2,10 @@ import { ChangeEvent } from 'react';
 
 export type Props = {
   option: RatingOption;
-  onChange: ({target}: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChange: (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
 export type RatingOption = {
-  value: string;
-  title: string;
+  optionValue: string;
+  optionTitle: string;
 }

@@ -23,7 +23,7 @@ const ConditionalLink = ({children}: Props): JSX.Element => {
   }
 };
 
-function HeaderLogo(): JSX.Element {
+function Logo(): JSX.Element {
   return (
     <div className="header__left">
       <ConditionalLink>
@@ -33,4 +33,4 @@ function HeaderLogo(): JSX.Element {
   );
 }
 
-export default HeaderLogo;
+export default Logo;

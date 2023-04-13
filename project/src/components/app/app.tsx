@@ -1,60 +1,45 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { AppRoute, LocationRoute } from '../../enums';
-import MainScreen from '../../pages/main-screen/main-screen';
-import MainScreenContent from '../main-screen-content/main-screen-content';
-import OfferScreen from '../../pages/offer-screen/offer-screen';
-import LoginScreen from '../../pages/login-screen/login-screen';
-import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
-import { useAppSelector } from '../../hooks';
-import { AuthorizationStatus } from '../../enums';
-import { getData } from '../../store/selectors';
-import ScrollToTop from '../scroll-to-top/scroll-to-top';
+import MainPage from '../../pages/main-page/main-page';
+import MainContent from '../main-content/main-content';
+import OfferPage from '../../pages/offer-page/offer-page';
+import LoginPage from '../../pages/login-page/login-page';
+import NotFoundPage from '../../pages/not-found-page/not-found-page';
+import ScrollUp from '../scroll-up/scroll-up';
 import { Fragment } from 'react';
-import Loader from '../loader/loader';
 
-const locationRoutes = Object.values(LocationRoute);
+const routes = Object.values(LocationRoute);
 
 function App(): JSX.Element {
-  const {authorizationStatus, isLoading} = useAppSelector(getData);
-
   return (
     <Fragment>
-      <ScrollToTop />
-
+      <ScrollUp />
       <Routes>
         <Route
           path={AppRoute.Root}
-          element={isLoading ? <Loader /> : <MainScreen />}
+          element={<MainPage />}
         >
-          <Route
-            index
-            element={<Navigate replace to={LocationRoute.Paris} />}
-          />
           {
-            locationRoutes.map((locationRoute) => (
+            routes.map((route) => (
               <Route
-                key={locationRoute}
-                path={locationRoute}
-                element={<MainScreenContent />}
+                key={route}
+                path={route}
+                element={<MainContent />}
               />
             ))
           }
         </Route>
         <Route
           path={`${AppRoute.Offer}/:id`}
-          element={<OfferScreen />}
+          element={<OfferPage />}
         />
         <Route
           path={AppRoute.Login}
-          element={
-            authorizationStatus === AuthorizationStatus.Auth ?
-              <Navigate replace to={LocationRoute.Paris} /> :
-              <LoginScreen />
-          }
+          element={<LoginPage />}
         />
         <Route
           path='*'
-          element={<NotFoundScreen />}
+          element={<NotFoundPage />}
         />
       </Routes>
     </Fragment>

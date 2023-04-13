@@ -1,50 +1,61 @@
-import useStateRef from 'react-usestateref';
 import { AuthData } from '../../types/data';
 import { useState, useCallback, ChangeEvent, FormEvent } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { EMAIL_PATTERN } from '../../consts';
-import { loginAction } from '../../store/api-actions';
-import { Helmet } from 'react-helmet-async';
-import HeaderLogo from '../../components/header-logo/header-logo';
+import { login } from '../../store/api-actions';
+import { useAppSelector } from '../../hooks';
+import { getData } from '../../store/selectors';
+import { AuthorizationStatus } from '../../enums';
+import { useNavigate } from 'react-router-dom';
+import { LocationRoute } from '../../enums';
 import './styles.css';
+import Header from '../../components/header/header';
+import { useEffect } from 'react';
 
-function LoginScreen(): JSX.Element {
-  const [formData, setFormData, formDataRef] = useStateRef<AuthData>({ email: '', password: '' });
+const TITLE = '6 Cities — Login page';
+
+function LoginPage(): JSX.Element {
+  const [formData, setFormData] = useState<AuthData>({ email: '', password: '' });
   const [isFormValid, setIsFormValid] = useState(false);
 
+  const {authorizationStatus} = useAppSelector(getData);
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const handleChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
     setIsFormValid(false);
-    setFormData((prevFormData) => ({ ...prevFormData, [evt.target.name]: evt.target.value }));
 
-    if (
-      formDataRef.current.email.match(EMAIL_PATTERN) &&
-      formDataRef.current.password.length > 0) {
+    setFormData((prevData) => {
+      const newData = ({ ...prevData, [evt.target.name]: evt.target.value });
 
-      setIsFormValid(true);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formDataRef]);
+      if (
+        newData.email.match(EMAIL_PATTERN) &&
+        newData.password.length > 0) {
+
+        setIsFormValid(true);
+      }
+
+      return newData;
+    });
+  }, []);
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    dispatch(loginAction(formData));
+    dispatch(login(formData));
   };
+
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      navigate(LocationRoute.Paris);
+    }
+  }, [authorizationStatus, navigate]);
 
   return (
     <div className="page page--gray page--login">
-      <Helmet>
-        <title>6 Cities &mdash; Login page</title>
-      </Helmet>
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <HeaderLogo />
-          </div>
-        </div>
-      </header>
+      <Header
+        title={TITLE}
+      />
       <main className="page__main page__main--login">
         <div className="page__login-container container">
           <section className="login">
@@ -99,4 +110,4 @@ function LoginScreen(): JSX.Element {
   );
 }
 
-export default LoginScreen;
+export default LoginPage;
