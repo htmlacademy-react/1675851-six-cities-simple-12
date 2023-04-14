@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { AppRoute } from '../../enums';
 import './styles.css';
 
-function OfferItem({offer}: Props): JSX.Element {
+function CardComponent({offer}: Props): JSX.Element {
   const dispatch = useAppDispatch();
 
   return (
@@ -42,4 +42,4 @@ function OfferItem({offer}: Props): JSX.Element {
   );
 }
 
-export default OfferItem;
+export default CardComponent;

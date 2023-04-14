@@ -1,13 +1,13 @@
 import { useAppSelector } from '../../hooks';
-import OfferList from '../offer-list/offer-list';
-import OfferMap from '../offer-map/offer-map';
+import CardsComponent from '../cards-component/cards-component';
+import MapComponent from '../map-component/map-component';
 import { getData } from '../../store/selectors';
 import Sort from '../sort/sort';
 import { useRef } from 'react';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-function ListMain(): JSX.Element {
+function MainBodyContent(): JSX.Element {
   const {pathname} = useLocation();
   const mapRef = useRef<HTMLElement>(null);
   const {locationPoint, locationOffers, selectedOffer} = useAppSelector(getData);
@@ -25,11 +25,11 @@ function ListMain(): JSX.Element {
         <b className="places__found">{locationOffers.length} places to stay in {locationOffers[0].city.name}</b>
         <Sort />
         <div className="cities__places-list places__list tabs__content">
-          <OfferList offers={locationOffers} />
+          <CardsComponent offers={locationOffers} />
         </div>
       </section>
       <div className="cities__right-section">
-        <OfferMap
+        <MapComponent
           locationPoint={locationPoint}
           locationOffers={locationOffers}
           selectedOffer={selectedOffer}
@@ -40,4 +40,4 @@ function ListMain(): JSX.Element {
   );
 }
 
-export default ListMain;
+export default MainBodyContent;

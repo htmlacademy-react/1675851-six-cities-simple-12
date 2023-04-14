@@ -1,4 +1,4 @@
-import { Icon, Marker, LayerGroup } from 'leaflet';
+import { PointTuple, Icon, Marker, LayerGroup } from 'leaflet';
 import defaultMarker from './pin.svg';
 import selectedMarker from './pin-active.svg';
 import { Props } from './types';
@@ -8,7 +8,9 @@ import { useEffect } from 'react';
 import 'leaflet/dist/leaflet.css';
 import './styles.css';
 import cn from 'classnames';
-import { ICON_SIZE, ICON_ANCHOR } from '../../consts';
+
+export const ICON_SIZE: PointTuple = [35.1, 50.7];
+export const ICON_ANCHOR: PointTuple = [17.55, 50.7];
 
 const defaultIcon = new Icon({
   iconUrl: defaultMarker,
@@ -22,7 +24,7 @@ const selectedIcon = new Icon({
   iconAnchor: ICON_ANCHOR
 });
 
-function OfferMap({locationPoint, locationOffers, selectedOffer, offer, nearbyOffers, className}: Props): JSX.Element {
+function MapComponent({locationPoint, locationOffers, selectedOffer, offer, nearbyOffers, className}: Props): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, locationPoint);
 
@@ -84,4 +86,4 @@ function OfferMap({locationPoint, locationOffers, selectedOffer, offer, nearbyOf
   );
 }
 
-export default OfferMap;
+export default MapComponent;

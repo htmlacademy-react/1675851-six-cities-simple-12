@@ -5,3 +5,7 @@
 .form__textarea:valid:not(:placeholder-shown) {
   border-color: green;
 }
+
+.form__submit:disabled {
+  cursor: default;
+}

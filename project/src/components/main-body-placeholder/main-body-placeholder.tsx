@@ -1,4 +1,4 @@
-function ListPlaceholder(): JSX.Element {
+function MainBodyPlaceholder(): JSX.Element {
   return (
     <div className="cities__places-container cities__places-container--empty container">
       <section className="cities__no-places">
@@ -12,4 +12,4 @@ function ListPlaceholder(): JSX.Element {
   );
 }
 
-export default ListPlaceholder;
+export default MainBodyPlaceholder;

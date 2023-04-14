@@ -1,16 +1,16 @@
 import { useState, useCallback, ChangeEvent } from 'react';
 import { ratingTitleMap } from '../../maps';
-import RatingItem from '../rating-item/rating-item';
 import { CommentData } from '../../types/data';
 import { FormEvent } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { sendComment } from '../../store/api-actions';
+import { Fragment } from 'react';
 import './styles.css';
 
 export const options = Object.entries(ratingTitleMap).map(([optionValue, optionTitle]) => ({optionValue, optionTitle})).reverse();
 export const TEXTAREA_MIN_LENGTH = 50;
 
-function ReviewForm(): JSX.Element {
+function OfferReviewsForm(): JSX.Element {
   const [formData, setFormData] = useState<CommentData>({ rating: 0, comment: '' });
   const [isFormValid, setIsFormValid] = useState(false);
 
@@ -52,11 +52,25 @@ function ReviewForm(): JSX.Element {
       <div className="reviews__rating-form form__rating">
         {
           options.map((option) => (
-            <RatingItem
-              key={option.optionTitle}
-              option={option}
-              onChange={handleChange}
-            />
+            <Fragment key={option.optionTitle}>
+              <input
+                className="form__rating-input visually-hidden"
+                id={`${option.optionValue}-stars`}
+                type="radio"
+                name="rating"
+                value={option.optionValue}
+                onChange={handleChange}
+              />
+              <label
+                className="reviews__rating-label form__rating-label"
+                htmlFor={`${option.optionValue}-stars`}
+                title={option.optionTitle}
+              >
+                <svg className="form__star-image" width="37" height="33">
+                  <use xlinkHref="#icon-star"></use>
+                </svg>
+              </label>
+            </Fragment>
           ))
         }
       </div>
@@ -89,4 +103,4 @@ function ReviewForm(): JSX.Element {
   );
 }
 
-export default ReviewForm;
+export default OfferReviewsForm;
