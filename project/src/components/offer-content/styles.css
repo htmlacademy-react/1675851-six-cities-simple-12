@@ -1,3 +1,7 @@
+.property__feature--entire::first-letter {
+  text-transform: uppercase;
+}
+
 .property__inside-list {
   display: flex;
   flex-direction: column;

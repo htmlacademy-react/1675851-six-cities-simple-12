@@ -7,7 +7,6 @@ import { getData } from '../../store/selectors';
 import Loader from '../../components/loader/loader';
 import Header from '../../components/header/header';
 import OfferContent from '../../components/offer-content/offer-content';
-import './styles.css';
 
 function OfferPage(): JSX.Element {
   const {id} = useParams();
@@ -30,12 +29,7 @@ function OfferPage(): JSX.Element {
     return (
       <div className="page">
         <Header title={title} profile />
-
-        <OfferContent
-          offer={offer}
-          locationPoint={locationPoint}
-          nearbyOffers={nearbyOffers}
-        />
+        <OfferContent offer={offer} locationPoint={locationPoint} nearbyOffers={nearbyOffers} />
       </div>
     );
   }

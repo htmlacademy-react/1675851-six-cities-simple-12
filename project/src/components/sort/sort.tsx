@@ -5,6 +5,7 @@ import { setSort } from '../../store/action';
 import { SortType } from '../../enums';
 import { sortTitleMap, sortCallbackMap } from '../../maps';
 import cn from 'classnames';
+import './styles.css';
 
 const options = Object.entries(sortTitleMap).map(([optionValue, optionTitle]) => ({optionValue, optionTitle}));
 const keys = Object.keys(sortCallbackMap);

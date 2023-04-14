@@ -38,6 +38,7 @@ function ReviewForm(): JSX.Element {
 
   const handleSubmit = useCallback((evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
+
     dispatch(sendComment(formData));
 
     const form = evt.target as HTMLFormElement;
