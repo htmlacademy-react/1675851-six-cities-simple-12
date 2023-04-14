@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../enums';
+import { LocationRoute } from '../../enums';
 import './styles.css';
 
 function NotFoundContent(): JSX.Element {
@@ -11,7 +11,7 @@ function NotFoundContent(): JSX.Element {
             <span className="not-found__status-code">404</span>
             <span className="not-found__status-text">Page not found</span>
           </h1>
-          <Link className="not-found__link" to={AppRoute.Root}>Go to main page</Link>
+          <Link className="not-found__link" to={LocationRoute.Paris}>Go to main page</Link>
         </section>
       </div>
     </main>

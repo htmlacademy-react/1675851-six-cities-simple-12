@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/store';
 import axios, { AxiosInstance } from 'axios';
-import { Offers, Offer, Comments, User, OfferId, AuthData, CommentData } from '../types/data';
+import { Offers, Offer, Comments, User, OfferId, AuthData, /*CommentData*/ } from '../types/data';
 import { AppRoute, LocationRoute, APIRoute } from '../enums';
 import { saveToken, dropToken } from '../services/token';
 import { StatusCodes } from 'http-status-codes';
@@ -13,7 +13,7 @@ import {
   loadOffers,
   loadOffer,
   redirectToRoute,
-  setComments,
+  // setComments,
 } from './action';
 
 export const checkAuth = createAsyncThunk<void, undefined, {
@@ -97,22 +97,22 @@ export const login = createAsyncThunk<void, AuthData, {
   }
 );
 
-export const sendComment = createAsyncThunk<void, CommentData, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}>(
-  'data/sendComment',
-  async (data, {dispatch, getState, extra: api}) => {
-    const offerId = getState().offerId;
+// export const sendComment = createAsyncThunk<void, CommentData, {
+//   dispatch: AppDispatch;
+//   state: State;
+//   extra: AxiosInstance;
+// }>(
+//   'data/sendComment',
+//   async (data, {dispatch, getState, extra: api}) => {
+//     const offerId = getState().offerId;
 
-    if (offerId) {
-      const response = await api.post<Comments>(`${APIRoute.Comments}/${offerId}`, data);
+//     if (offerId) {
+//       const response = await api.post<Comments>(`${APIRoute.Comments}/${offerId}d`, data);
 
-      dispatch(setComments(response.data));
-    }
-  }
-);
+//       dispatch(setComments(response.data));
+//     }
+//   }
+// );
 
 export const logout = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;

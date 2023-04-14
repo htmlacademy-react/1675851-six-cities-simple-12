@@ -1,23 +1,32 @@
-import { useState, useCallback, ChangeEvent } from 'react';
+import { createAPI } from '../../services/api';
 import { ratingTitleMap } from '../../maps';
-import { CommentData } from '../../types/data';
-import { FormEvent } from 'react';
+import { useAppSelector } from '../../hooks';
+import { getData } from '../../store/selectors';
+import { useState, useCallback, ChangeEvent, FormEvent, Fragment } from 'react';
+import { Comments, CommentData } from '../../types/data';
 import { useAppDispatch } from '../../hooks';
-import { sendComment } from '../../store/api-actions';
-import { Fragment } from 'react';
+import { setComments } from '../../store/action';
+import { APIRoute } from '../../enums';
 import './styles.css';
 
-export const options = Object.entries(ratingTitleMap).map(([optionValue, optionTitle]) => ({optionValue, optionTitle})).reverse();
 export const TEXTAREA_MIN_LENGTH = 50;
+export const TEXTAREA_MAX_LENGTH = 300;
+export const api = createAPI();
+export const options = Object.entries(ratingTitleMap).map(([optionValue, optionTitle]) => ({optionValue, optionTitle})).reverse();
+
+const keyframes = {transform: [0, -5, 0, 5, 0].map((value) => `translateX(${value}px)`)};
+const config = {duration: 150, iterations: 4};
 
 function OfferReviewsForm(): JSX.Element {
+  const {offerId} = useAppSelector(getData);
   const [formData, setFormData] = useState<CommentData>({ rating: 0, comment: '' });
-  const [isFormValid, setIsFormValid] = useState(false);
+  const [isFormInvalid, setFormInvalid] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const dispatch = useAppDispatch();
 
   const handleChange = useCallback((evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setIsFormValid(false);
+    setFormInvalid(true);
 
     setFormData((prevData) => {
       const newData = ({
@@ -27,9 +36,10 @@ function OfferReviewsForm(): JSX.Element {
 
       if (
         newData.rating &&
-        newData.comment.length >= TEXTAREA_MIN_LENGTH) {
+        (newData.comment.length >= TEXTAREA_MIN_LENGTH &&
+          newData.comment.length <= TEXTAREA_MAX_LENGTH)) {
 
-        setIsFormValid(true);
+        setFormInvalid(false);
       }
 
       return newData;
@@ -39,12 +49,27 @@ function OfferReviewsForm(): JSX.Element {
   const handleSubmit = useCallback((evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    dispatch(sendComment(formData));
-
     const form = evt.target as HTMLFormElement;
 
-    form.reset();
-  }, [formData, dispatch]);
+    (async () => {
+      try {
+        setIsSubmitting(true);
+
+        if (offerId) {
+          const response = await api.post<Comments>(`${APIRoute.Comments}/${offerId}`, formData);
+
+          dispatch(setComments(response.data));
+          form.reset();
+        }
+      }
+
+      catch {
+        form.animate(keyframes, config);
+      }
+
+      setIsSubmitting(false);
+    })();
+  }, [offerId, formData, dispatch]);
 
   return (
     <form className="reviews__form form" onSubmit={handleSubmit}>
@@ -59,6 +84,7 @@ function OfferReviewsForm(): JSX.Element {
                 type="radio"
                 name="rating"
                 value={option.optionValue}
+                disabled={isSubmitting}
                 onChange={handleChange}
               />
               <label
@@ -80,7 +106,9 @@ function OfferReviewsForm(): JSX.Element {
         name="comment"
         placeholder="Tell how was your stay, what you like and what can be improved"
         minLength={TEXTAREA_MIN_LENGTH}
+        maxLength={TEXTAREA_MAX_LENGTH}
         required
+        disabled={isSubmitting}
         onChange={handleChange}
       >
       </textarea>
@@ -94,7 +122,7 @@ function OfferReviewsForm(): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={!isFormValid}
+          disabled={isSubmitting || isFormInvalid}
         >
           Submit
         </button>

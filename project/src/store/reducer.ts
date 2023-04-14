@@ -89,7 +89,8 @@ const reducer = createReducer(initialState, (builder) => {
       state.comments = [];
     })
     .addCase(setComments, (state, action) => {
-      state.comments = action.payload;
+      state.comments = action.payload
+        .sort((commentA, commentB) => Date.parse(commentB.date) - Date.parse(commentA.date)).slice(0, 10);
     });
 });
 
