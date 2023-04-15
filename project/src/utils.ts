@@ -23,3 +23,5 @@ export const config: Intl.DateTimeFormatOptions = {
 };
 
 export const formatDate = (date: Date) => new Intl.DateTimeFormat(language, config).format(date);
+
+export const getRandomInteger = (num: number) => Math.floor(Math.random() * num);

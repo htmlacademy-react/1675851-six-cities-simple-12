@@ -3,7 +3,11 @@ import { AuthData } from '../../types/data';
 import { useAppDispatch } from '../../hooks';
 import { EMAIL_PATTERN } from '../../consts';
 import { login } from '../../store/api-actions';
+import { filterTitleMap } from '../../maps';
+import { getRandomInteger } from '../../utils';
 import './styles.css';
+
+const locations = Object.entries(filterTitleMap).map(([locationRoute, locationTitle]) => ({locationRoute, locationTitle}));
 
 function LoginContent(): JSX.Element {
   const [formData, setFormData] = useState<AuthData>({ email: '', password: '' });
@@ -33,6 +37,8 @@ function LoginContent(): JSX.Element {
 
     dispatch(login(formData));
   }, [formData, dispatch]);
+
+  const location = locations[getRandomInteger(locations.length)];
 
   return (
     <main className="page__main page__main--login">
@@ -75,8 +81,8 @@ function LoginContent(): JSX.Element {
         </section>
         <section className="locations locations--login locations--current">
           <div className="locations__item">
-            <a className="locations__item-link" href="/#">
-              <span>Amsterdam</span>
+            <a className="locations__item-link" href={location.locationRoute}>
+              <span>{location.locationTitle}</span>
             </a>
           </div>
         </section>
