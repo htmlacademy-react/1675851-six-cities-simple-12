@@ -1,12 +1,12 @@
+import { LocationRoute, AppRoute } from '../../enums';
+import { Fragment } from 'react';
+import ScrollUp from '../scroll-up/scroll-up';
 import { Routes, Route } from 'react-router-dom';
-import { AppRoute, LocationRoute } from '../../enums';
 import MainPage from '../../pages/main-page/main-page';
-import MainContent from '../main-content/main-content';
+import MainBody from '../main-body/main-body';
 import OfferPage from '../../pages/offer-page/offer-page';
 import LoginPage from '../../pages/login-page/login-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
-import ScrollUp from '../scroll-up/scroll-up';
-import { Fragment } from 'react';
 
 const routes = Object.values(LocationRoute);
 
@@ -24,7 +24,7 @@ function App(): JSX.Element {
               <Route
                 key={route}
                 path={route}
-                element={<MainContent />}
+                element={<MainBody />}
               />
             ))
           }

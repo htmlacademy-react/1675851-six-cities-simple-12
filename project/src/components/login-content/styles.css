@@ -5,3 +5,7 @@
 .login__input:valid:not(:placeholder-shown) {
   border-color: green;
 }
+
+.login__submit:disabled {
+  cursor: default;
+}

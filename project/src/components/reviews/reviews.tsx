@@ -1,18 +1,20 @@
-import { useAppSelector } from '../../hooks';
-import { getData } from '../../store/selectors';
-import ReviewList from '../review-list/review-list';
-import { AuthorizationStatus } from '../../enums';
-import ReviewForm from '../review-form/review-form';
+import { Props } from './types';
+import Review from '../review/review';
 
-function Reviews(): JSX.Element {
-  const {comments, authorizationStatus } = useAppSelector(getData);
-
+function Reviews({comments}: Props): JSX.Element {
   return (
-    <section className="property__reviews reviews">
-      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
-      <ReviewList comments={comments} />
-      {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm />}
-    </section>
+    <ul className="reviews__list">
+      {
+        comments.map((comment) => (
+          <li
+            className="reviews__item"
+            key={comment.id}
+          >
+            <Review comment={comment} />
+          </li>
+        ))
+      }
+    </ul>
   );
 }
 

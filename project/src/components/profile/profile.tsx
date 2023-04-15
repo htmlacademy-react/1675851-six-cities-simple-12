@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { AppRoute, LocationRoute, AuthorizationStatus } from '../../enums';
 import { AppDispatch } from '../../types/store';
 import { logout } from '../../store/api-actions';
+import './styles.css';
 
 const Avatar = (): JSX.Element => <div className="header__avatar-wrapper user__avatar-wrapper" />;
 

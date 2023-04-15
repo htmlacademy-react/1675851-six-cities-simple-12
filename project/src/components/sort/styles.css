@@ -1,0 +1,5 @@
+.places__sorting-caption,
+.places__sorting-type,
+.places__option {
+  user-select: none;
+}

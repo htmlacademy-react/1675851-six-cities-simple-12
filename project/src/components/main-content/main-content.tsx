@@ -1,26 +1,30 @@
 import { useLocation } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppDispatch } from '../../hooks';
 import { useEffect } from 'react';
-import ListMain from '../list-main/list-main';
-import ListPlaceholder from '../list-placeholder/list-placeholder';
-import { getData } from '../../store/selectors';
 import { filterCallbackMap } from '../../maps';
 import { setFilter } from '../../store/action';
+import { Outlet } from 'react-router-dom';
+import Filter from '../filter/filter';
 
 function MainContent(): JSX.Element {
   const {pathname} = useLocation();
   const dispatch = useAppDispatch();
-  const {locationOffers} = useAppSelector(getData);
 
   useEffect(() => {
     dispatch(setFilter(filterCallbackMap[pathname]));
   }, [pathname, dispatch]);
 
-  if (locationOffers.length) {
-    return <ListMain />;
-  }
-
-  return <ListPlaceholder />;
+  return (
+    <main className="page__main page__main--index page__main--index-empty">
+      <h1 className="visually-hidden">Cities</h1>
+      <div className="tabs">
+        <section className="locations container">
+          <Filter />
+        </section>
+      </div>
+      <Outlet />
+    </main>
+  );
 }
 
 export default MainContent;

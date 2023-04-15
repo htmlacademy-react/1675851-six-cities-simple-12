@@ -1,9 +1,8 @@
 import { InitialState } from '../types/store';
 import { AuthorizationStatus, LocationRoute, SortType } from '../enums';
 import { filterCallbackMap, sortCallbackMap} from '../maps';
-import { LOCATION_POINT_DEFAULT } from '../consts';
 import { createReducer } from '@reduxjs/toolkit';
-import { Offer, Offers, Comments } from '../types/data';
+import { Offers, Offer, CityLocation, Comments } from '../types/data';
 
 import {
   setAuth,
@@ -18,6 +17,12 @@ import {
   resetOffer,
   setComments
 } from './action';
+
+export const LOCATION_POINT_DEFAULT: CityLocation = {
+  'latitude': 48.85661,
+  'longitude': 2.351499,
+  'zoom': 13
+};
 
 const initialState: InitialState = {
   authorizationStatus: AuthorizationStatus.Unknown,
@@ -84,7 +89,8 @@ const reducer = createReducer(initialState, (builder) => {
       state.comments = [];
     })
     .addCase(setComments, (state, action) => {
-      state.comments = action.payload;
+      state.comments = action.payload
+        .sort((commentA, commentB) => Date.parse(commentB.date) - Date.parse(commentA.date)).slice(0, 10);
     });
 });
 

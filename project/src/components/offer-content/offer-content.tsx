@@ -1,9 +1,9 @@
 import { Props } from './types';
 import { pluralize } from '../../utils';
 import cn from 'classnames';
-import Reviews from '../reviews/reviews';
-import OfferMap from '../offer-map/offer-map';
-import OfferList from '../offer-list/offer-list';
+import OfferReviews from '../offer-reviews/offer-reviews';
+import MapComponent from '../map-component/map-component';
+import CardsComponent from '../cards-component/cards-component';
 import './styles.css';
 
 function OfferContent({offer, locationPoint, nearbyOffers}: Props): JSX.Element {
@@ -13,7 +13,7 @@ function OfferContent({offer, locationPoint, nearbyOffers}: Props): JSX.Element 
         <div className="property__gallery-container container">
           <div className="property__gallery">
             {
-              offer.images.map((image) => (
+              offer.images.slice(0, 6).map((image) => (
                 <div className="property__image-wrapper" key={image}>
                   <img className="property__image" src={image} alt="" />
                 </div>
@@ -77,10 +77,10 @@ function OfferContent({offer, locationPoint, nearbyOffers}: Props): JSX.Element 
                 <p className="property__text">{offer.description}</p>
               </div>
             </div>
-            <Reviews />
+            <OfferReviews />
           </div>
         </div>
-        <OfferMap
+        <MapComponent
           locationPoint={locationPoint}
           offer={offer}
           nearbyOffers={nearbyOffers}
@@ -91,7 +91,7 @@ function OfferContent({offer, locationPoint, nearbyOffers}: Props): JSX.Element 
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
           <div className="near-places__list places__list">
-            <OfferList offers={nearbyOffers}/>
+            <CardsComponent offers={nearbyOffers}/>
           </div>
         </section>
       </div>
