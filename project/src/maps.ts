@@ -12,7 +12,7 @@ export const filterTitleMap = {
 };
 
 export type FilterCallback = (offer: Offer) => boolean;
-export type FilterCallbackMap = Record<string, FilterCallback>;
+export type FilterCallbackMap = Record<LocationRoute, FilterCallback>;
 
 export const filterCallbackMap: FilterCallbackMap = {
   [LocationRoute.Paris]: (offer: Offer) => offer.city.name === 'Paris',
@@ -24,7 +24,7 @@ export const filterCallbackMap: FilterCallbackMap = {
 };
 
 export type SortCallback = (offerA: Offer, offerB: Offer) => number;
-export type SortCallbackMap = Record<string, SortCallback>;
+export type SortCallbackMap = Record<SortType, SortCallback>;
 
 export const sortCallbackMap: SortCallbackMap = {
   [SortType.Default]: () => 0,

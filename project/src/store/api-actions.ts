@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/store';
 import axios, { AxiosInstance } from 'axios';
-import { Offers, Offer, Comments, User, OfferId, AuthData, /*CommentData*/ } from '../types/data';
+import { Offers, Offer, Comments, User, OfferId, AuthData } from '../types/data';
 import { AppRoute, LocationRoute, APIRoute } from '../enums';
 import { saveToken, dropToken } from '../services/token';
 import { StatusCodes } from 'http-status-codes';
@@ -10,10 +10,9 @@ import {
   setAuth,
   resetAuth,
   setLoader,
-  loadOffers,
-  loadOffer,
-  redirectToRoute,
-  // setComments,
+  setOffers,
+  setOffer,
+  redirectToRoute
 } from './action';
 
 export const checkAuth = createAsyncThunk<void, undefined, {
@@ -46,7 +45,7 @@ export const getOffers = createAsyncThunk<void, undefined, {
 
     const response = await api.get<Offers>(APIRoute.Offers);
 
-    dispatch(loadOffers(response.data));
+    dispatch(setOffers(response.data));
   }
 );
 
@@ -68,7 +67,7 @@ export const getOffer = createAsyncThunk<void, OfferId, {
 
       const data = response.map((item) => item.data);
 
-      dispatch(loadOffer(data));
+      dispatch(setOffer(data));
     }
 
     catch (exception) {
@@ -96,23 +95,6 @@ export const login = createAsyncThunk<void, AuthData, {
     dispatch(redirectToRoute(LocationRoute.Paris));
   }
 );
-
-// export const sendComment = createAsyncThunk<void, CommentData, {
-//   dispatch: AppDispatch;
-//   state: State;
-//   extra: AxiosInstance;
-// }>(
-//   'data/sendComment',
-//   async (data, {dispatch, getState, extra: api}) => {
-//     const offerId = getState().offerId;
-
-//     if (offerId) {
-//       const response = await api.post<Comments>(`${APIRoute.Comments}/${offerId}d`, data);
-
-//       dispatch(setComments(response.data));
-//     }
-//   }
-// );
 
 export const logout = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;

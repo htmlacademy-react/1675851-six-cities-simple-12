@@ -31,7 +31,7 @@ function MainBodyContent(): JSX.Element {
       <div className="cities__right-section">
         <MapComponent
           locationPoint={locationPoint}
-          locationOffers={locationOffers}
+          offers={locationOffers}
           selectedOffer={selectedOffer}
           className={'cities__map'}
         />

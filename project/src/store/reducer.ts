@@ -8,12 +8,12 @@ import {
   setAuth,
   resetAuth,
   setLoader,
-  loadOffers,
+  setOffers,
   setFilter,
   setSort,
   setSelectedOffer,
   resetSelectedOffer,
-  loadOffer,
+  setOffer,
   resetOffer,
   setComments
 } from './action';
@@ -53,7 +53,7 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(setLoader, (state) => {
       state.isLoading = true;
     })
-    .addCase(loadOffers, (state, action) => {
+    .addCase(setOffers, (state, action) => {
       state.offers = action.payload;
       state.isLoading = false;
     })
@@ -73,7 +73,7 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(resetSelectedOffer, (state) => {
       state.selectedOffer = null;
     })
-    .addCase(loadOffer, (state, action) => {
+    .addCase(setOffer, (state, action) => {
       const [offer, nearbyOffers, comments] = action.payload;
 
       state.offer = offer as Offer;

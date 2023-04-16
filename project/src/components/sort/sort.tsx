@@ -42,14 +42,14 @@ function Sort(): JSX.Element {
             <li
               className={cn(
                 'places__option', {
-                  'places__option--active': optionValue === keys.find((key) => sortCallbackMap[key] === sort)}
+                  'places__option--active': optionValue === keys.find((key) => sortCallbackMap[key as SortType] === sort)}
               )}
               value={optionValue}
               tabIndex={0}
               key={optionTitle}
               onClick={
                 () => {
-                  dispatch(setSort(sortCallbackMap[optionValue]));
+                  dispatch(setSort(sortCallbackMap[optionValue as SortType]));
                   setTitle(optionTitle);
                   setDropdown(false);
                 }

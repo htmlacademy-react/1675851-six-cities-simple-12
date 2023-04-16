@@ -2,12 +2,11 @@ import { PointTuple, Icon, Marker, LayerGroup } from 'leaflet';
 import defaultMarker from './pin.svg';
 import selectedMarker from './pin-active.svg';
 import { Props } from './types';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import useMap from '../../hooks/use-map/use-map';
-import { useEffect } from 'react';
+import cn from 'classnames';
 import 'leaflet/dist/leaflet.css';
 import './styles.css';
-import cn from 'classnames';
 
 export const ICON_SIZE: PointTuple = [35.1, 50.7];
 export const ICON_ANCHOR: PointTuple = [17.55, 50.7];
@@ -24,7 +23,7 @@ const selectedIcon = new Icon({
   iconAnchor: ICON_ANCHOR
 });
 
-function MapComponent({locationPoint, locationOffers, selectedOffer, offer, nearbyOffers, className}: Props): JSX.Element {
+function MapComponent({locationPoint, offers, selectedOffer, className}: Props): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, locationPoint);
 
@@ -32,42 +31,16 @@ function MapComponent({locationPoint, locationOffers, selectedOffer, offer, near
     if (map) {
       const markerGroup = new LayerGroup();
 
-      if (offer) {
+      offers.forEach((offer) => {
         const marker = new Marker({
           lat: offer.location.latitude,
           lng: offer.location.longitude
         });
 
         marker
-          .setIcon(selectedIcon)
+          .setIcon((offer.id === selectedOffer?.id) ? selectedIcon : defaultIcon)
           .addTo(markerGroup);
-      }
-
-      if (nearbyOffers) {
-        nearbyOffers.forEach((nearbyOffer) => {
-          const marker = new Marker({
-            lat: nearbyOffer.location.latitude,
-            lng: nearbyOffer.location.longitude
-          });
-
-          marker
-            .setIcon(defaultIcon)
-            .addTo(markerGroup);
-        });
-      }
-
-      if (locationOffers) {
-        locationOffers.forEach((locationOffer) => {
-          const marker = new Marker({
-            lat: locationOffer.location.latitude,
-            lng: locationOffer.location.longitude
-          });
-
-          marker
-            .setIcon((selectedOffer?.id === locationOffer.id) ? selectedIcon : defaultIcon)
-            .addTo(markerGroup);
-        });
-      }
+      });
 
       markerGroup.addTo(map);
 
@@ -75,7 +48,7 @@ function MapComponent({locationPoint, locationOffers, selectedOffer, offer, near
         map.removeLayer(markerGroup);
       };
     }
-  }, [locationOffers, map, nearbyOffers, offer, selectedOffer]);
+  }, [map, offers, selectedOffer]);
 
   return (
     <section
