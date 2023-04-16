@@ -31,14 +31,14 @@ function MapComponent({locationPoint, offers, selectedOffer, className}: Props):
     if (map) {
       const markerGroup = new LayerGroup();
 
-      offers.forEach((item) => {
+      offers.forEach((offer) => {
         const marker = new Marker({
-          lat: item.location.latitude,
-          lng: item.location.longitude
+          lat: offer.location.latitude,
+          lng: offer.location.longitude
         });
 
         marker
-          .setIcon((item.id === selectedOffer?.id) ? selectedIcon : defaultIcon)
+          .setIcon((offer.id === selectedOffer?.id) ? selectedIcon : defaultIcon)
           .addTo(markerGroup);
       });
 

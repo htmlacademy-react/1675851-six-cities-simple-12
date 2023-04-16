@@ -5,13 +5,14 @@ import { filterCallbackMap } from '../../maps';
 import { setFilter } from '../../store/action';
 import { Outlet } from 'react-router-dom';
 import Filter from '../filter/filter';
+import { LocationRoute } from '../../enums';
 
 function MainContent(): JSX.Element {
   const {pathname} = useLocation();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(setFilter(filterCallbackMap[pathname]));
+    dispatch(setFilter(filterCallbackMap[pathname as LocationRoute]));
   }, [pathname, dispatch]);
 
   return (
