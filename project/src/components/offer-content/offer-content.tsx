@@ -82,9 +82,9 @@ function OfferContent({offer, locationPoint, nearbyOffers}: Props): JSX.Element 
         </div>
         <MapComponent
           locationPoint={locationPoint}
-          offer={offer}
-          nearbyOffers={nearbyOffers}
+          offers={[offer, ...nearbyOffers]}
           className={'property__map'}
+          selectedOffer={offer}
         />
       </section>
       <div className="container">

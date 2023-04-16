@@ -6,13 +6,14 @@ import { login } from '../../store/api-actions';
 import { filterTitleMap } from '../../maps';
 import { getRandomInteger } from '../../utils';
 import './styles.css';
+import { useMemo } from 'react';
 
 const locations = Object.entries(filterTitleMap).map(([locationRoute, locationTitle]) => ({locationRoute, locationTitle}));
 
 function LoginContent(): JSX.Element {
   const [formData, setFormData] = useState<AuthData>({ email: '', password: '' });
   const [isFormValid, setIsFormValid] = useState(false);
-
+  const location = useMemo(() => locations[getRandomInteger(locations.length)], []);
   const dispatch = useAppDispatch();
 
   const handleChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
@@ -37,8 +38,6 @@ function LoginContent(): JSX.Element {
 
     dispatch(login(formData));
   }, [formData, dispatch]);
-
-  const location = locations[getRandomInteger(locations.length)];
 
   return (
     <main className="page__main page__main--login">

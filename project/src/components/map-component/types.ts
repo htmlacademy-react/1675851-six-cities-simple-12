@@ -2,9 +2,7 @@ import { Offers, Offer, CityLocation } from '../../types/data';
 
 export type Props = {
   locationPoint: CityLocation;
-  locationOffers?: Offers;
-  selectedOffer?: Offer | null;
-  offer?: Offer;
-  nearbyOffers?: Offers;
+  offers: Offers;
+  selectedOffer: Offer | null;
   className: string;
 };
