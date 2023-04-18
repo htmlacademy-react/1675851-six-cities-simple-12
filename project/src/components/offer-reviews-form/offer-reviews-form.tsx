@@ -1,3 +1,5 @@
+// обсудить
+
 import { ratingTitleMap } from '../../maps';
 import { useState, useCallback, ChangeEvent, FormEvent, useRef, useEffect, Fragment } from 'react';
 import { CommentFormData } from '../../types/data';
