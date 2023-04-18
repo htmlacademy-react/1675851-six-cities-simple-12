@@ -41,3 +41,21 @@ export enum RatingScore {
   Good = 4,
   Perfect = 5
 }
+
+export enum NameSpace {
+  User = 'USER',
+  Offers = 'OFFERS',
+  Offer = 'OFFER'
+}
+
+export enum SendingStatus {
+  Pending = 'PENDING',
+  Fulfilled = 'FULFILLED',
+  Rejected = 'REJECTED',
+  Unknown = 'UNKNOWN'
+}
+
+export enum TextAreaLength {
+  Min = 50,
+  Max = 300
+}

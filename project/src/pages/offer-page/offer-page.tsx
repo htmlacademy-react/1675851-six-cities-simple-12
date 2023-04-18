@@ -1,21 +1,23 @@
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useEffect } from 'react';
-import { getOffer } from '../../store/api-actions';
-import { resetOffer } from '../../store/action';
-import { getData } from '../../store/selectors';
+import { loadOffer } from '../../store/api-actions';
 import Loader from '../../components/loader/loader';
 import Header from '../../components/header/header';
 import OfferContent from '../../components/offer-content/offer-content';
+import { resetOffer } from '../../store/offer-data/offer-data';
+import { getOffer, getLocationPoint, getNearbyOffers } from '../../store/offer-data/selectors';
 
 function OfferPage(): JSX.Element {
   const {id} = useParams();
   const dispatch = useAppDispatch();
-  const {offer, locationPoint, nearbyOffers} = useAppSelector(getData);
+  const offer = useAppSelector(getOffer);
+  const locationPoint = useAppSelector(getLocationPoint);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
 
   useEffect(() => {
     if (id) {
-      dispatch(getOffer(id));
+      dispatch(loadOffer(id));
     }
 
     return () => {

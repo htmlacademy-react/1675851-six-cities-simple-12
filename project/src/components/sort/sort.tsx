@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { getData } from '../../store/selectors';
-import { setSort } from '../../store/action';
+import { getSort } from '../../store/offers-data/selectors';
+import { setSort } from '../../store/offers-data/offers-data';
 import { SortType } from '../../enums';
 import { sortTitleMap, sortCallbackMap } from '../../maps';
 import cn from 'classnames';
@@ -14,7 +14,7 @@ function Sort(): JSX.Element {
   const [title, setTitle] = useState(sortTitleMap[SortType.Default]);
   const [dropdown, setDropdown] = useState(false);
 
-  const {sort} = useAppSelector(getData);
+  const sort = useAppSelector(getSort);
   const dispatch = useAppDispatch();
 
   return (

@@ -1,5 +1,5 @@
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { getData } from '../../store/selectors';
+import { getAuthorizationStatus, getUser } from '../../store/user-process/selectors';
 import { Link } from 'react-router-dom';
 import { AppRoute, LocationRoute, AuthorizationStatus } from '../../enums';
 import { AppDispatch } from '../../types/store';
@@ -13,7 +13,8 @@ const handleLogout = (dispatch: AppDispatch) => {
 };
 
 const UserNavigation = (): JSX.Element => {
-  const {authorizationStatus, user} = useAppSelector(getData);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const user = useAppSelector(getUser);
   const dispatch = useAppDispatch();
 
   switch (authorizationStatus) {

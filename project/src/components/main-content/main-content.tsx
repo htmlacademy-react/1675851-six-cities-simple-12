@@ -2,7 +2,7 @@ import { useLocation } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks';
 import { useEffect } from 'react';
 import { filterCallbackMap } from '../../maps';
-import { setFilter } from '../../store/action';
+import { setFilter } from '../../store/offers-data/offers-data';
 import { Outlet } from 'react-router-dom';
 import Filter from '../filter/filter';
 import { LocationRoute } from '../../enums';

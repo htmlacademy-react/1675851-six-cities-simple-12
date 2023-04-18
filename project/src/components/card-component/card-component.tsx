@@ -1,6 +1,6 @@
 import { Props } from './types';
 import { useAppDispatch } from '../../hooks';
-import { setSelectedOffer, resetSelectedOffer } from '../../store/action';
+import { setSelectedOffer, resetSelectedOffer } from '../../store/offers-data/offers-data';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../enums';
 import './styles.css';
