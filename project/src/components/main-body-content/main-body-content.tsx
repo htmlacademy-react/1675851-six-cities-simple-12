@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { useRef, useEffect } from 'react';
 import { useAppSelector } from '../../hooks';
-import { getData } from '../../store/selectors';
+import { getLocationPoint, getSelectedOffer, getlocationOffers } from '../../store/offers-data/selectors';
 import { pluralize } from '../../utils';
 import Sort from '../sort/sort';
 import CardsComponent from '../cards-component/cards-component';
@@ -10,7 +10,9 @@ import MapComponent from '../map-component/map-component';
 function MainBodyContent(): JSX.Element {
   const {pathname} = useLocation();
   const mapRef = useRef<HTMLElement>(null);
-  const {locationPoint, locationOffers, selectedOffer} = useAppSelector(getData);
+  const locationPoint = useAppSelector(getLocationPoint);
+  const locationOffers = useAppSelector(getlocationOffers);
+  const selectedOffer = useAppSelector(getSelectedOffer);
 
   useEffect(() => {
     if (mapRef.current !== null) {

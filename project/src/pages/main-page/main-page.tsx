@@ -1,5 +1,5 @@
 import { useAppSelector } from '../../hooks';
-import { getData } from '../../store/selectors';
+import { getIsLoading } from '../../store/offers-data/selectors';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { AppRoute, LocationRoute } from '../../enums';
@@ -10,7 +10,7 @@ import MainContent from '../../components/main-content/main-content';
 const TITLE = '6 Cities — Main page';
 
 function MainPage(): JSX.Element {
-  const {isLoading} = useAppSelector(getData);
+  const isLoading = useAppSelector(getIsLoading);
   const {pathname} = useLocation();
   const navigate = useNavigate();
 

@@ -1,5 +1,5 @@
 import { useAppSelector } from '../../hooks';
-import { getData } from '../../store/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { AuthorizationStatus } from '../../enums';
@@ -10,7 +10,7 @@ import LoginContent from '../../components/login-content/login-content';
 const TITLE = '6 Cities — Login page';
 
 function LoginPage(): JSX.Element {
-  const {authorizationStatus} = useAppSelector(getData);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const navigate = useNavigate();
 
   useEffect(() => {

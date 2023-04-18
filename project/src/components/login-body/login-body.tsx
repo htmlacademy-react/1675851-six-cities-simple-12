@@ -1,11 +1,11 @@
 import { useState, useCallback, ChangeEvent, FormEvent } from 'react';
-import { AuthData } from '../../types/data';
+import { AuthFormData } from '../../types/data';
 import { useAppDispatch } from '../../hooks';
 import { EMAIL_PATTERN } from '../../consts';
 import { login } from '../../store/api-actions';
 
 function LoginBody(): JSX.Element {
-  const [formData, setFormData] = useState<AuthData>({ email: '', password: '' });
+  const [formData, setFormData] = useState<AuthFormData>({ email: '', password: '' });
   const [isFormValid, setIsFormValid] = useState(false);
   const dispatch = useAppDispatch();
 

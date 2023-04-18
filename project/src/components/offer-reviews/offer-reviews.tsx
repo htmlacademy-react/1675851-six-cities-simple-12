@@ -1,11 +1,13 @@
 import { useAppSelector } from '../../hooks';
-import { getData } from '../../store/selectors';
 import Reviews from '../reviews/reviews';
 import { AuthorizationStatus } from '../../enums';
 import OfferReviewsForm from '../offer-reviews-form/offer-reviews-form';
+import { getComments } from '../../store/offer-data/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 function OfferReviews(): JSX.Element {
-  const {comments, authorizationStatus } = useAppSelector(getData);
+  const comments = useAppSelector(getComments);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   return (
     <section className="property__reviews reviews">

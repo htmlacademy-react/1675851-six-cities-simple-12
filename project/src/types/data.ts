@@ -63,12 +63,19 @@ export type User = {
 
 export type OfferId = string;
 
-export type AuthData = {
+export type AuthFormData = {
   email: string;
   password: string;
 }
 
 export type CommentData = {
+  id: OfferId;
+  body: CommentFormData;
+}
+
+export type CommentFormData = {
   rating: number;
   comment: string;
 }
+
+export type OfferGroup = (Offer | Offers | Comments)[];

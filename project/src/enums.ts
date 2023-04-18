@@ -41,3 +41,9 @@ export enum RatingScore {
   Good = 4,
   Perfect = 5
 }
+
+export enum NameSpace {
+  User = 'USER',
+  Offers = 'OFFERS',
+  Offer = 'OFFER'
+}

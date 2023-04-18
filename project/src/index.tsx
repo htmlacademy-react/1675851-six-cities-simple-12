@@ -1,5 +1,5 @@
 import { store } from './store';
-import { checkAuth, getOffers } from './store/api-actions';
+import { checkAuth, loadOffers } from './store/api-actions';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { HelmetProvider } from 'react-helmet-async';
@@ -11,7 +11,7 @@ import App from './components/app/app';
 import 'react-toastify/dist/ReactToastify.css';
 
 store.dispatch(checkAuth());
-store.dispatch(getOffers());
+store.dispatch(loadOffers());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,

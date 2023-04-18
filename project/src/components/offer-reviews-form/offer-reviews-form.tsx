@@ -1,12 +1,10 @@
 import { createAPI } from '../../services/api';
 import { ratingTitleMap } from '../../maps';
-import { useAppSelector } from '../../hooks';
-import { getData } from '../../store/selectors';
 import { useState, useCallback, ChangeEvent, FormEvent, Fragment } from 'react';
-import { Comments, CommentData } from '../../types/data';
+import { CommentFormData } from '../../types/data';
 import { useAppDispatch } from '../../hooks';
-import { setComments } from '../../store/action';
-import { APIRoute } from '../../enums';
+import { useParams } from 'react-router-dom';
+import { sendComment } from '../../store/api-actions';
 import './styles.css';
 
 export const TEXTAREA_MIN_LENGTH = 50;
@@ -18,10 +16,10 @@ const keyframes = {transform: [0, -5, 0, 5, 0].map((value) => `translateX(${valu
 const config = {duration: 150, iterations: 4};
 
 function OfferReviewsForm(): JSX.Element {
-  const {offerId} = useAppSelector(getData);
-  const [formData, setFormData] = useState<CommentData>({ rating: 0, comment: '' });
+  const [formData, setFormData] = useState<CommentFormData>({ rating: 0, comment: '' });
   const [isFormInvalid, setFormInvalid] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const {id} = useParams();
 
   const dispatch = useAppDispatch();
 
@@ -51,25 +49,21 @@ function OfferReviewsForm(): JSX.Element {
 
     const form = evt.target as HTMLFormElement;
 
-    (async () => {
-      try {
-        setIsSubmitting(true);
+    try {
+      setIsSubmitting(true);
 
-        if (offerId) {
-          const response = await api.post<Comments>(`${APIRoute.Comments}/${offerId}`, formData);
-
-          dispatch(setComments(response.data));
-          form.reset();
-        }
+      if (id) {
+        dispatch(sendComment({id, body: formData}));
+        form.reset();
       }
+    }
 
-      catch {
-        form.animate(keyframes, config);
-      }
+    catch {
+      form.animate(keyframes, config);
+    }
 
-      setIsSubmitting(false);
-    })();
-  }, [offerId, formData, dispatch]);
+    setIsSubmitting(false);
+  }, [id, dispatch, formData]);
 
   return (
     <form className="reviews__form form" onSubmit={handleSubmit}>
