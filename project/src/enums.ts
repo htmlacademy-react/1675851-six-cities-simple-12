@@ -47,3 +47,15 @@ export enum NameSpace {
   Offers = 'OFFERS',
   Offer = 'OFFER'
 }
+
+export enum SendingStatus {
+  Pending = 'PENDING',
+  Fulfilled = 'FULFILLED',
+  Rejected = 'REJECTED',
+  Unknown = 'UNKNOWN'
+}
+
+export enum TextAreaLength {
+  Min = 50,
+  Max = 300
+}

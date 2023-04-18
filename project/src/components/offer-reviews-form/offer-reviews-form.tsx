@@ -1,30 +1,28 @@
-import { createAPI } from '../../services/api';
 import { ratingTitleMap } from '../../maps';
-import { useState, useCallback, ChangeEvent, FormEvent, Fragment } from 'react';
+import { useState, useCallback, ChangeEvent, FormEvent, useRef, useEffect, Fragment } from 'react';
 import { CommentFormData } from '../../types/data';
-import { useAppDispatch } from '../../hooks';
+import { useAppSelector, useAppDispatch } from '../../hooks';
 import { useParams } from 'react-router-dom';
 import { sendComment } from '../../store/api-actions';
+import { getSendingStatus } from '../../store/offer-data/selectors';
+import { TextAreaLength, SendingStatus } from '../../enums';
+import { setSendingStatus } from '../../store/offer-data/offer-data';
+import { keyframes, config } from '../../consts';
 import './styles.css';
 
-export const TEXTAREA_MIN_LENGTH = 50;
-export const TEXTAREA_MAX_LENGTH = 300;
-export const api = createAPI();
 export const options = Object.entries(ratingTitleMap).map(([optionValue, optionTitle]) => ({optionValue, optionTitle})).reverse();
-
-const keyframes = {transform: [0, -5, 0, 5, 0].map((value) => `translateX(${value}px)`)};
-const config = {duration: 150, iterations: 4};
 
 function OfferReviewsForm(): JSX.Element {
   const [formData, setFormData] = useState<CommentFormData>({ rating: 0, comment: '' });
-  const [isFormInvalid, setFormInvalid] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isFormInvalid, setIsFormInvalid] = useState(true);
   const {id} = useParams();
+  const formRef = useRef(null);
 
+  const sendingStatus = useAppSelector(getSendingStatus);
   const dispatch = useAppDispatch();
 
   const handleChange = useCallback((evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormInvalid(true);
+    setIsFormInvalid(true);
 
     setFormData((prevData) => {
       const newData = ({
@@ -34,10 +32,10 @@ function OfferReviewsForm(): JSX.Element {
 
       if (
         newData.rating &&
-        (newData.comment.length >= TEXTAREA_MIN_LENGTH &&
-          newData.comment.length <= TEXTAREA_MAX_LENGTH)) {
+        (newData.comment.length >= TextAreaLength.Min &&
+          newData.comment.length <= TextAreaLength.Max)) {
 
-        setFormInvalid(false);
+        setIsFormInvalid(false);
       }
 
       return newData;
@@ -47,26 +45,30 @@ function OfferReviewsForm(): JSX.Element {
   const handleSubmit = useCallback((evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    const form = evt.target as HTMLFormElement;
+    if (id) {
+      dispatch(sendComment({id, body: formData}));
+    }
+  }, [id, formData, dispatch]);
 
-    try {
-      setIsSubmitting(true);
+  useEffect(() => {
+    if (formRef.current !== null) {
+      const form = formRef.current as HTMLFormElement;
 
-      if (id) {
-        dispatch(sendComment({id, body: formData}));
+      if (sendingStatus === SendingStatus.Fulfilled) {
         form.reset();
+        setIsFormInvalid(true);
+        dispatch(setSendingStatus(SendingStatus.Unknown));
+      }
+
+      if (sendingStatus === SendingStatus.Rejected) {
+        form.animate(keyframes, config);
+        dispatch(setSendingStatus(SendingStatus.Unknown));
       }
     }
-
-    catch {
-      form.animate(keyframes, config);
-    }
-
-    setIsSubmitting(false);
-  }, [id, dispatch, formData]);
+  }, [dispatch, sendingStatus]);
 
   return (
-    <form className="reviews__form form" onSubmit={handleSubmit}>
+    <form className="reviews__form form" onSubmit={handleSubmit} ref={formRef}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {
@@ -78,7 +80,7 @@ function OfferReviewsForm(): JSX.Element {
                 type="radio"
                 name="rating"
                 value={option.optionValue}
-                disabled={isSubmitting}
+                disabled={sendingStatus === SendingStatus.Pending}
                 onChange={handleChange}
               />
               <label
@@ -99,10 +101,10 @@ function OfferReviewsForm(): JSX.Element {
         id="review"
         name="comment"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        minLength={TEXTAREA_MIN_LENGTH}
-        maxLength={TEXTAREA_MAX_LENGTH}
+        minLength={TextAreaLength.Min}
+        maxLength={TextAreaLength.Max}
         required
-        disabled={isSubmitting}
+        disabled={sendingStatus === SendingStatus.Pending}
         onChange={handleChange}
       >
       </textarea>
@@ -111,12 +113,12 @@ function OfferReviewsForm(): JSX.Element {
           To submit review please make sure to set&nbsp;
           <span className="reviews__star">rating</span>
           and describe your stay with at least&nbsp;
-          <b className="reviews__text-amount">{TEXTAREA_MIN_LENGTH} characters</b>.
+          <b className="reviews__text-amount">{TextAreaLength.Min} characters</b>.
         </p>
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={isSubmitting || isFormInvalid}
+          disabled={sendingStatus === SendingStatus.Pending || isFormInvalid}
         >
           Submit
         </button>

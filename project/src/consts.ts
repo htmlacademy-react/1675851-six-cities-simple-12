@@ -7,3 +7,6 @@ export const LOCATION_POINT_DEFAULT: CityLocation = {
 };
 
 export const EMAIL_PATTERN = /.+@.+\..+/i;
+
+export const keyframes = {transform: [0, -5, 0, 5, 0].map((value) => `translateX(${value}px)`)};
+export const config = {duration: 150, iterations: 4};

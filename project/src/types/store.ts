@@ -3,6 +3,7 @@ import { Offers, Offer, CityLocation, Comments, User } from './data';
 import { FilterCallback, SortCallback } from '../maps';
 import { AuthorizationStatusType } from './routes';
 import { rootReducer } from '../store/root-reducer';
+import { SendingStatus } from '../enums';
 
 export type AppDispatch = typeof store.dispatch;
 export type State = ReturnType<typeof store.getState>;
@@ -46,4 +47,5 @@ export type OfferData = {
   locationPoint: CityLocation;
   nearbyOffers: Offers;
   comments: Comments;
+  sendingStatus: SendingStatus;
 }

@@ -88,7 +88,7 @@ export const sendComment = createAsyncThunk<Comments, CommentData, {
 }>(
   'data/sendComment',
   async ({id, body}, {extra: api}) => {
-    const response = await api.post<Comments>(`${APIRoute.Comments}/${id}`, body);
+    const response = await api.post<Comments>(`${APIRoute.Comments}d/${id}`, body);
 
     return response.data;
   }
