@@ -1,14 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/store';
-import axios, { AxiosInstance } from 'axios';
-import { Offers, Offer, Comments, User, OfferId, AuthFormData, OfferGroup, CommentData } from '../types/data';
-import { AppRoute, LocationRoute, APIRoute } from '../enums';
+import { AxiosInstance, AxiosError } from 'axios';
+import { Offers, Offer, User, OfferId, Comments, AuthFormData, CommentData } from '../types/data';
+import { APIRoute, AppRoute, LocationRoute } from '../enums';
 import { saveToken, dropToken } from '../services/token';
+import { redirectToRoute } from './action';
 import { StatusCodes } from 'http-status-codes';
-
-import {
-  redirectToRoute
-} from './action';
 
 export const checkAuth = createAsyncThunk<User, undefined, {
   dispatch: AppDispatch;
@@ -16,8 +13,8 @@ export const checkAuth = createAsyncThunk<User, undefined, {
   extra: AxiosInstance;
 }>(
   'user/checkAuth',
-  async (_arguments, {extra: api}) => {
-    const response = await api.get<User>(APIRoute.Login);
+  async (_arguments, thunkApi) => {
+    const response = await thunkApi.extra.get<User>(APIRoute.Login);
 
     return response.data;
   }
@@ -28,40 +25,63 @@ export const loadOffers = createAsyncThunk<Offers, undefined, {
   state: State;
   extra: AxiosInstance;
 }>(
-  'data/getOffers',
-  async (_arguments, {extra: api}) => {
-    const response = await api.get<Offers>(APIRoute.Offers);
+  'data/loadOffers',
+  async (_arguments, thunkApi) => {
+    const response = await thunkApi.extra.get<Offers>(APIRoute.Offers);
 
     return response.data;
   }
 );
 
-export const loadOffer = createAsyncThunk<OfferGroup, OfferId, {
+export const loadOffer = createAsyncThunk<Offer, OfferId, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+  rejectValue: number | undefined;
+}>(
+  'data/loadOffer',
+  async (_arguments, thunkApi) => {
+    try {
+      const offer = await thunkApi.extra.get<Offer>(`${APIRoute.Offers}/${_arguments}`);
+
+      return offer.data;
+    }
+
+    catch (exception) {
+      const error = exception as AxiosError;
+
+      if (error.response?.status === StatusCodes.NOT_FOUND) {
+        thunkApi.dispatch(redirectToRoute(AppRoute.NotFound));
+      }
+
+      return thunkApi.rejectWithValue(error.response?.status);
+    }
+  }
+);
+
+export const loadNearbyOffers = createAsyncThunk<Offers, OfferId, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
-  'data/getOffer',
-  async (id, {dispatch, extra: api}) => {
-    const response = await Promise.all([
-      api.get<Offer>(`${APIRoute.Offers}/${id}`),
-      api.get<Offers>(`${APIRoute.Offers}/${id}/nearby`),
-      api.get<Comments>(`${APIRoute.Comments}/${id}`)
-    ])
-      .catch((exception) => {
-        if (
-          axios.isAxiosError(exception) &&
-          exception.response?.status === StatusCodes.NOT_FOUND) {
+  'data/loadNearbyOffers',
+  async (_arguments, thunkApi) => {
+    const nearbyOffers = await thunkApi.extra.get<Offers>(`${APIRoute.Offers}/${_arguments}/nearby`);
 
-          dispatch(redirectToRoute(AppRoute.NotFound));
-        }
-      });
+    return nearbyOffers.data;
+  }
+);
 
-    if (response) {
-      return response.map((item) => item.data);
-    }
+export const loadComments = createAsyncThunk<Comments, OfferId, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/loadComments',
+  async (_arguments, thunkApi) => {
+    const comments = await thunkApi.extra.get<Comments>(`${APIRoute.Comments}/${_arguments}`);
 
-    return [];
+    return comments.data;
   }
 );
 
@@ -71,11 +91,11 @@ export const login = createAsyncThunk<User, AuthFormData, {
   extra: AxiosInstance;
 }>(
   'user/login',
-  async (data, {dispatch, extra: api}) => {
-    const response = await api.post<User>(APIRoute.Login, data);
+  async (_arguments, thunkApi) => {
+    const response = await thunkApi.extra.post<User>(APIRoute.Login, _arguments);
 
     saveToken(response.data.token);
-    dispatch(redirectToRoute(LocationRoute.Paris));
+    thunkApi.dispatch(redirectToRoute(LocationRoute.Paris));
 
     return response.data;
   }
@@ -87,8 +107,8 @@ export const sendComment = createAsyncThunk<Comments, CommentData, {
   extra: AxiosInstance;
 }>(
   'data/sendComment',
-  async ({id, body}, {extra: api}) => {
-    const response = await api.post<Comments>(`${APIRoute.Comments}d/${id}`, body);
+  async (_arguments, thunkApi) => {
+    const response = await thunkApi.extra.post<Comments>(`${APIRoute.Comments}/${_arguments.id}`, _arguments.body);
 
     return response.data;
   }
@@ -100,8 +120,8 @@ export const logout = createAsyncThunk<void, undefined, {
   extra: AxiosInstance;
 }>(
   'user/logout',
-  async (_arguments, {extra: api}) => {
-    await api.delete(APIRoute.Logout);
+  async (_arguments, thunkApi) => {
+    await thunkApi.extra.delete(APIRoute.Logout);
 
     dropToken();
   }

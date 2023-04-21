@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getSort } from '../../store/offers-data/selectors';
 import { setSort } from '../../store/offers-data/offers-data';
-import { SortType } from '../../enums';
 import { sortTitleMap, sortCallbackMap } from '../../maps';
+import { SortType } from '../../enums';
 import cn from 'classnames';
 import './styles.css';
 
@@ -11,11 +12,18 @@ const options = Object.entries(sortTitleMap).map(([optionValue, optionTitle]) =>
 const keys = Object.keys(sortCallbackMap);
 
 function Sort(): JSX.Element {
-  const [title, setTitle] = useState(sortTitleMap[SortType.Default]);
+  const {pathname} = useLocation();
   const [dropdown, setDropdown] = useState(false);
+  const [title, setTitle] = useState(sortTitleMap[SortType.Default]);
 
   const sort = useAppSelector(getSort);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setSort(sortCallbackMap[SortType.Default]));
+    setTitle(sortTitleMap[SortType.Default]);
+    setDropdown(false);
+  }, [pathname, dispatch]);
 
   return (
     <form className="places__sorting">
@@ -42,18 +50,17 @@ function Sort(): JSX.Element {
             <li
               className={cn(
                 'places__option', {
-                  'places__option--active': optionValue === keys.find((key) => sortCallbackMap[key as SortType] === sort)}
+                  'places__option--active': optionValue === keys.find((key) => sortCallbackMap[key as SortType] === sort)
+                }
               )}
               value={optionValue}
               tabIndex={0}
               key={optionTitle}
-              onClick={
-                () => {
-                  dispatch(setSort(sortCallbackMap[optionValue as SortType]));
-                  setTitle(optionTitle);
-                  setDropdown(false);
-                }
-              }
+              onClick={() => {
+                dispatch(setSort(sortCallbackMap[optionValue as SortType]));
+                setTitle(optionTitle);
+                setDropdown(false);
+              }}
             >
               {optionTitle}
             </li>

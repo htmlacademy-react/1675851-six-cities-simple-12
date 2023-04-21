@@ -1,17 +1,19 @@
 import { useLocation } from 'react-router-dom';
 import { useRef, useEffect } from 'react';
 import { useAppSelector } from '../../hooks';
-import { getLocationPoint, getSelectedOffer, getlocationOffers } from '../../store/offers-data/selectors';
+import { getlocationOffers, getLocationName, getLocationPoint, getSelectedOffer } from '../../store/offers-data/selectors';
 import { pluralize } from '../../utils';
 import Sort from '../sort/sort';
-import CardsComponent from '../cards-component/cards-component';
-import MapComponent from '../map-component/map-component';
+import Cards from '../cards/cards';
+import Map from '../map/map';
 
-function MainBodyContent(): JSX.Element {
+function LocationContent(): JSX.Element {
   const {pathname} = useLocation();
   const mapRef = useRef<HTMLElement>(null);
-  const locationPoint = useAppSelector(getLocationPoint);
+
   const locationOffers = useAppSelector(getlocationOffers);
+  const locationName = useAppSelector(getLocationName);
+  const locationPoint = useAppSelector(getLocationPoint);
   const selectedOffer = useAppSelector(getSelectedOffer);
 
   useEffect(() => {
@@ -22,16 +24,21 @@ function MainBodyContent(): JSX.Element {
 
   return (
     <div className="cities__places-container container">
-      <section className="cities__places places" ref={mapRef}>
+      <section
+        className="cities__places places"
+        ref={mapRef}
+      >
         <h2 className="visually-hidden">Places</h2>
-        <b className="places__found">{pluralize(locationOffers.length, 'place', 'places')} to stay in {locationOffers[0].city.name}</b>
+        <b className="places__found">
+          {pluralize(locationOffers.length, 'place', 'places')} to stay in {locationName}
+        </b>
         <Sort />
         <div className="cities__places-list places__list tabs__content">
-          <CardsComponent offers={locationOffers} />
+          <Cards offers={locationOffers} />
         </div>
       </section>
       <div className="cities__right-section">
-        <MapComponent
+        <Map
           locationPoint={locationPoint}
           offers={locationOffers}
           selectedOffer={selectedOffer}
@@ -42,4 +49,4 @@ function MainBodyContent(): JSX.Element {
   );
 }
 
-export default MainBodyContent;
+export default LocationContent;

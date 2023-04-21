@@ -1,27 +1,21 @@
-export const language = 'en-US';
-
-export enum GrammaticalNumber {
-  Singular = 'one',
-  Plural = 'other'
-}
+export const LANGUAGE = 'en-US';
+export const GRAMMATICAL_SINGULAR_NUMBER = 'one';
 
 export const pluralize = (count: number, singular: string, plural: string) => {
-  const rules = new Intl.PluralRules(language);
-  const grammaticalNumber = rules.select(count);
+  const rules = new Intl.PluralRules(LANGUAGE);
+  const number = rules.select(count);
 
-  switch (grammaticalNumber) {
-    case GrammaticalNumber.Singular:
-      return `${count} ${singular}`;
-    case GrammaticalNumber.Plural:
-      return `${count} ${plural}`;
+  switch (number) {
+    case GRAMMATICAL_SINGULAR_NUMBER: return `${count} ${singular}`;
+    default: return `${count} ${plural}`;
   }
 };
 
-export const config: Intl.DateTimeFormatOptions = {
+export const dateConfig: Intl.DateTimeFormatOptions = {
   month: 'long',
   year: 'numeric'
 };
 
-export const formatDate = (date: Date) => new Intl.DateTimeFormat(language, config).format(date);
+export const formatDate = (date: Date) => new Intl.DateTimeFormat(LANGUAGE, dateConfig).format(date);
 
 export const getRandomInteger = (num: number) => Math.floor(Math.random() * num);

@@ -1,11 +1,15 @@
-import { Props } from './types';
+import { Offer } from '../../types/data';
 import { useAppDispatch } from '../../hooks';
 import { setSelectedOffer, resetSelectedOffer } from '../../store/offers-data/offers-data';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../enums';
 import './styles.css';
 
-function CardComponent({offer}: Props): JSX.Element {
+type Props = {
+  offer: Offer;
+}
+
+function Card({offer}: Props): JSX.Element {
   const dispatch = useAppDispatch();
 
   return (
@@ -42,4 +46,4 @@ function CardComponent({offer}: Props): JSX.Element {
   );
 }
 
-export default CardComponent;
+export default Card;

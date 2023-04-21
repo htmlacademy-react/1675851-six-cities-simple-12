@@ -1,12 +1,33 @@
-import { Props } from './types';
+import { Offer } from '../../types/data';
+import { useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getLocationPoint, getNearbyOffers } from '../../store/offer-data/selectors';
+import { useEffect } from 'react';
+import { loadNearbyOffers, loadComments } from '../../store/api-actions';
 import { pluralize } from '../../utils';
 import cn from 'classnames';
 import OfferReviews from '../offer-reviews/offer-reviews';
-import MapComponent from '../map-component/map-component';
-import CardsComponent from '../cards-component/cards-component';
+import Map from '../map/map';
+import Cards from '../cards/cards';
 import './styles.css';
 
-function OfferContent({offer, locationPoint, nearbyOffers}: Props): JSX.Element {
+type Props = {
+  offer: Offer;
+}
+
+function OfferContent({offer}: Props): JSX.Element {
+  const {id} = useParams();
+  const dispatch = useAppDispatch();
+  const locationPoint = useAppSelector(getLocationPoint);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
+
+  useEffect(() => {
+    if (id) {
+      dispatch(loadNearbyOffers(id));
+      dispatch(loadComments(id));
+    }
+  }, [id, dispatch]);
+
   return (
     <main className='page__main page__main--property'>
       <section className="property">
@@ -80,7 +101,7 @@ function OfferContent({offer, locationPoint, nearbyOffers}: Props): JSX.Element 
             <OfferReviews />
           </div>
         </div>
-        <MapComponent
+        <Map
           locationPoint={locationPoint}
           offers={[offer, ...nearbyOffers]}
           className={'property__map'}
@@ -91,7 +112,7 @@ function OfferContent({offer, locationPoint, nearbyOffers}: Props): JSX.Element 
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
           <div className="near-places__list places__list">
-            <CardsComponent offers={nearbyOffers}/>
+            <Cards offers={nearbyOffers}/>
           </div>
         </section>
       </div>

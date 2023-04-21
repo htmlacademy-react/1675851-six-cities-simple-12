@@ -1,15 +1,16 @@
-import { useState, useCallback, ChangeEvent, FormEvent } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
 import { AuthFormData } from '../../types/data';
 import { useAppDispatch } from '../../hooks';
-import { EMAIL_PATTERN } from '../../consts';
 import { login } from '../../store/api-actions';
 
-function LoginBody(): JSX.Element {
+export const EMAIL_PATTERN = /.+@.+\..+/i;
+
+function LoginForm(): JSX.Element {
   const [formData, setFormData] = useState<AuthFormData>({ email: '', password: '' });
   const [isFormValid, setIsFormValid] = useState(false);
   const dispatch = useAppDispatch();
 
-  const handleChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setIsFormValid(false);
 
     setFormData((prevData) => {
@@ -24,13 +25,13 @@ function LoginBody(): JSX.Element {
 
       return newData;
     });
-  }, []);
+  };
 
-  const handleSubmit = useCallback((evt: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     dispatch(login(formData));
-  }, [formData, dispatch]);
+  };
 
   return (
     <section className="login">
@@ -72,4 +73,4 @@ function LoginBody(): JSX.Element {
   );
 }
 
-export default LoginBody;
+export default LoginForm;

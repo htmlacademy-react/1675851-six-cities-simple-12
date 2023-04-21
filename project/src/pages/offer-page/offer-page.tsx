@@ -1,19 +1,17 @@
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getOffer } from '../../store/offer-data/selectors';
 import { useEffect } from 'react';
 import { loadOffer } from '../../store/api-actions';
-import Loader from '../../components/loader/loader';
+import { resetOffer } from '../../store/offer-data/offer-data';
 import Header from '../../components/header/header';
 import OfferContent from '../../components/offer-content/offer-content';
-import { resetOffer } from '../../store/offer-data/offer-data';
-import { getOffer, getLocationPoint, getNearbyOffers } from '../../store/offer-data/selectors';
+import Loader from '../../components/loader/loader';
 
 function OfferPage(): JSX.Element {
   const {id} = useParams();
   const dispatch = useAppDispatch();
   const offer = useAppSelector(getOffer);
-  const locationPoint = useAppSelector(getLocationPoint);
-  const nearbyOffers = useAppSelector(getNearbyOffers);
 
   useEffect(() => {
     if (id) {
@@ -31,7 +29,9 @@ function OfferPage(): JSX.Element {
     return (
       <div className="page">
         <Header title={title} profile />
-        <OfferContent offer={offer} locationPoint={locationPoint} nearbyOffers={nearbyOffers} />
+        {
+          offer ? <OfferContent offer={offer} /> : null
+        }
       </div>
     );
   }

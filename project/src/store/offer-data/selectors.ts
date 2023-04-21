@@ -7,4 +7,4 @@ export const getOffer = (state: State): Offer | null => state[NameSpace.Offer].o
 export const getLocationPoint = (state: State): CityLocation => state[NameSpace.Offer].locationPoint;
 export const getNearbyOffers = (state: State): Offers => state[NameSpace.Offer].nearbyOffers;
 export const getSendingStatus = (state: State): SendingStatus => state[NameSpace.Offer].sendingStatus;
-
+export const getResponseErrorCode = (state: State): number | undefined => state[NameSpace.Offer].responseErrorCode;

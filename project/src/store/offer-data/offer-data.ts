@@ -1,8 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { OfferData } from '../../types/store';
 import { NameSpace } from '../../enums';
-import { loadOffer } from '../api-actions';
-import { Offers, Offer, Comments } from '../../types/data';
+import { loadOffer, loadNearbyOffers, loadComments } from '../api-actions';
 import { sendComment } from '../api-actions';
 import { LOCATION_POINT_DEFAULT } from '../../consts';
 import { SendingStatus } from '../../enums';
@@ -13,7 +12,8 @@ const initialState: OfferData = {
   locationPoint: LOCATION_POINT_DEFAULT,
   nearbyOffers: [],
   comments: [],
-  sendingStatus: SendingStatus.Unknown
+  sendingStatus: SendingStatus.Unknown,
+  responseErrorCode: undefined,
 };
 
 export const offerData = createSlice({
@@ -26,9 +26,12 @@ export const offerData = createSlice({
       state.nearbyOffers = [];
       state.comments = [];
     },
-    setSendingStatus: (state, action) => {
-      state.sendingStatus = action.payload as SendingStatus;
-    }
+    setSendingStatus: (state, action: PayloadAction<SendingStatus>) => {
+      state.sendingStatus = action.payload;
+    },
+    resetResponseErrorCode: (state) => {
+      state.responseErrorCode = undefined;
+    },
   },
   extraReducers(builder) {
     builder
@@ -36,12 +39,16 @@ export const offerData = createSlice({
         state.isLoading = true;
       })
       .addCase(loadOffer.fulfilled, (state, action) => {
-        const [offer, nearbyOffers, comments] = action.payload;
-
-        state.offer = offer as Offer;
-        state.locationPoint = state.offer.city.location;
-        state.nearbyOffers = nearbyOffers as Offers;
-        state.comments = comments as Comments;
+        state.offer = action.payload;
+      })
+      .addCase(loadOffer.rejected, (state, action) => {
+        state.responseErrorCode = action.payload;
+      })
+      .addCase(loadNearbyOffers.fulfilled, (state, action) => {
+        state.nearbyOffers = action.payload;
+      })
+      .addCase(loadComments.fulfilled, (state, action) => {
+        state.comments = action.payload;
       })
       .addCase(sendComment.pending, (state) => {
         state.sendingStatus = SendingStatus.Pending;
@@ -56,4 +63,4 @@ export const offerData = createSlice({
   }
 });
 
-export const { resetOffer, setSendingStatus } = offerData.actions;
+export const { resetOffer, setSendingStatus, resetResponseErrorCode } = offerData.actions;
