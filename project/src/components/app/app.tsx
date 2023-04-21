@@ -1,5 +1,5 @@
-import { LocationRoute, AppRoute } from '../../enums';
 import { Fragment } from 'react';
+import { AppRoute, LocationRoute } from '../../enums';
 import ScrollUp from '../scroll-up/scroll-up';
 import { Routes, Route } from 'react-router-dom';
 import MainPage from '../../pages/main-page/main-page';

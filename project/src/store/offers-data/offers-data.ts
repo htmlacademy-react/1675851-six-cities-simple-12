@@ -1,18 +1,19 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { OffersData } from '../../types/store';
-import { NameSpace } from '../../enums';
-import { loadOffers } from '../api-actions';
-import { LOCATION_POINT_DEFAULT } from '../../consts';
+import { LocationRoute, SortType, NameSpace } from '../../enums';
+import { LOCATION_NAME_DEFAULT, LOCATION_POINT_DEFAULT } from '../../consts';
 import { filterCallbackMap, sortCallbackMap, FilterCallback, SortCallback } from '../../maps';
-import { LocationRoute, SortType } from '../../enums';
 import { Offer } from '../../types/data';
+import { loadOffers } from '../api-actions';
+
+const INDEX_OF_FIRST_ELEMENT = 0;
 
 const initialState: OffersData = {
-  isLoading: false,
   offers: [],
   filter: filterCallbackMap[LocationRoute.Paris],
   sort: sortCallbackMap[SortType.Default],
   locationOffers: [],
+  locationName: LOCATION_NAME_DEFAULT,
   locationPoint: LOCATION_POINT_DEFAULT,
   selectedOffer: null
 };
@@ -21,18 +22,19 @@ export const offersData = createSlice({
   name: NameSpace.Offers,
   initialState,
   reducers: {
-    setFilter: (state, action) => {
-      state.filter = action.payload as FilterCallback;
+    setFilter: (state, action: PayloadAction<FilterCallback>) => {
+      state.filter = action.payload;
       state.locationOffers = state.offers.filter(state.filter).sort(state.sort);
-      state.locationPoint = state.locationOffers[0].city.location;
+      state.locationName = state.locationOffers[INDEX_OF_FIRST_ELEMENT].city.name;
+      state.locationPoint = state.locationOffers[INDEX_OF_FIRST_ELEMENT].city.location;
     },
-    setSort: (state, action) => {
-      state.sort = action.payload as SortCallback;
+    setSort: (state, action: PayloadAction<SortCallback>) => {
+      state.sort = action.payload;
       state.locationOffers = state.sort !== sortCallbackMap[SortType.Default] ?
         state.locationOffers.sort(state.sort) : state.offers.filter(state.filter).sort(state.sort);
     },
-    setSelectedOffer: (state, action) => {
-      state.selectedOffer = action.payload as Offer;
+    setSelectedOffer: (state, action: PayloadAction<Offer>) => {
+      state.selectedOffer = action.payload;
     },
     resetSelectedOffer: (state) => {
       state.selectedOffer = null;
@@ -40,12 +42,8 @@ export const offersData = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(loadOffers.pending, (state) => {
-        state.isLoading = true;
-      })
       .addCase(loadOffers.fulfilled, (state, action) => {
         state.offers = action.payload;
-        state.isLoading = false;
       });
   }
 });

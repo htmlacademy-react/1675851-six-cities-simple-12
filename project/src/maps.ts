@@ -51,7 +51,6 @@ export const ratingTitleMap = {
 export type StatusCode = Record<number, boolean>;
 
 export const statusCodeMap: StatusCode = {
-  [StatusCodes.BAD_REQUEST]: true,
-  // [StatusCodes.UNAUTHORIZED]: true,
-  [StatusCodes.NOT_FOUND]: true
+  [StatusCodes.NOT_FOUND]: true,
+  [StatusCodes.BAD_REQUEST]: true
 };

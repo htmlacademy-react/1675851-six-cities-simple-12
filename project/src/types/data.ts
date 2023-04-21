@@ -42,16 +42,6 @@ export type OfferLocation = {
   zoom: number;
 }
 
-export type Comments = Comment[];
-
-export type Comment = {
-  comment: string;
-  date: string;
-  id: number;
-  rating: number;
-  user: Host;
-}
-
 export type User = {
   avatarUrl: string;
   email: string;
@@ -62,6 +52,16 @@ export type User = {
 }
 
 export type OfferId = string;
+
+export type Comments = Comment[];
+
+export type Comment = {
+  comment: string;
+  date: string;
+  id: number;
+  rating: number;
+  user: Host;
+}
 
 export type AuthFormData = {
   email: string;
@@ -77,5 +77,3 @@ export type CommentFormData = {
   rating: number;
   comment: string;
 }
-
-export type OfferGroup = (Offer | Offers | Comments)[];

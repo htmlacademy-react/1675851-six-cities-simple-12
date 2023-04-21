@@ -1,4 +1,5 @@
-import { PointTuple, Icon, Marker, LayerGroup } from 'leaflet';
+import { IconProperties } from './types';
+import { Icon, LayerGroup, Marker } from 'leaflet';
 import defaultMarker from './pin.svg';
 import selectedMarker from './pin-active.svg';
 import { Props } from './types';
@@ -8,22 +9,24 @@ import cn from 'classnames';
 import 'leaflet/dist/leaflet.css';
 import './styles.css';
 
-export const ICON_SIZE: PointTuple = [35.1, 50.7];
-export const ICON_ANCHOR: PointTuple = [17.55, 50.7];
+const icon: IconProperties = {
+  sizes: [35.1, 50.7],
+  anchors: [17.55, 50.7]
+};
 
 const defaultIcon = new Icon({
   iconUrl: defaultMarker,
-  iconSize: ICON_SIZE,
-  iconAnchor: ICON_ANCHOR
+  iconSize: icon.sizes,
+  iconAnchor: icon.anchors
 });
 
 const selectedIcon = new Icon({
   iconUrl: selectedMarker,
-  iconSize: ICON_SIZE,
-  iconAnchor: ICON_ANCHOR
+  iconSize: icon.sizes,
+  iconAnchor: icon.anchors
 });
 
-function MapComponent({locationPoint, offers, selectedOffer, className}: Props): JSX.Element {
+function Map({locationPoint, offers, selectedOffer, className}: Props): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, locationPoint);
 
@@ -59,4 +62,4 @@ function MapComponent({locationPoint, offers, selectedOffer, className}: Props):
   );
 }
 
-export default MapComponent;
+export default Map;

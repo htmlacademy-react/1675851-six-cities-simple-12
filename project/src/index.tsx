@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { HelmetProvider } from 'react-helmet-async';
 import HistoryRouter from './components/history-route/history-route';
 import browserHistory from './browser-history';
-import {ToastContainer} from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import Icons from './components/icons/icons';
 import App from './components/app/app';
 import 'react-toastify/dist/ReactToastify.css';

@@ -49,10 +49,10 @@ export enum NameSpace {
 }
 
 export enum SendingStatus {
+  Unknown = 'UNKNOWN',
   Pending = 'PENDING',
   Fulfilled = 'FULFILLED',
-  Rejected = 'REJECTED',
-  Unknown = 'UNKNOWN'
+  Rejected = 'REJECTED'
 }
 
 export enum TextAreaLength {

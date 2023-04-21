@@ -1,7 +1,7 @@
 import { useAppSelector } from '../../hooks';
-import MainBodyContent from '../main-body-content/main-body-content';
-import MainBodyPlaceholder from '../main-body-placeholder/main-body-placeholder';
 import { getlocationOffers } from '../../store/offers-data/selectors';
+import LocationContent from '../location-content/location-content';
+import LocationPlaceholder from '../location-placeholder/location-placeholder';
 
 function MainBody(): JSX.Element {
   const locationOffers = useAppSelector(getlocationOffers);
@@ -9,9 +9,7 @@ function MainBody(): JSX.Element {
   return (
     <div className="cities">
       {
-        locationOffers.length ?
-          <MainBodyContent /> :
-          <MainBodyPlaceholder />
+        locationOffers.length ? <LocationContent /> : <LocationPlaceholder />
       }
     </div>
   );
