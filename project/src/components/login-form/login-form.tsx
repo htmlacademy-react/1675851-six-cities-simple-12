@@ -12,7 +12,7 @@ function LoginForm(): JSX.Element {
   const [isFormValid, setIsFormValid] = useState(false);
   const dispatch = useAppDispatch();
 
-  const handleChange = (evt: FormEvent<HTMLInputElement>) => {
+  const handleInput = (evt: FormEvent<HTMLInputElement>) => {
     setIsFormValid(false);
 
     const input = evt.target as HTMLInputElement;
@@ -51,7 +51,7 @@ function LoginForm(): JSX.Element {
             pattern=".+@.+\..+"
             autoComplete="off"
             required
-            onInput={handleChange}
+            onInput={handleInput}
           />
         </div>
         <div className="login__input-wrapper form__input-wrapper">
@@ -63,7 +63,7 @@ function LoginForm(): JSX.Element {
             placeholder="Password"
             pattern="^(?:(?=.*[a-zA-Z])(?=.*[0-9]).*)$"
             required
-            onInput={handleChange}
+            onInput={handleInput}
           />
         </div>
         <button
