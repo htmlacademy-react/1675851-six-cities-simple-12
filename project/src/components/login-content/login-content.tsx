@@ -1,6 +1,5 @@
 import LoginForm from '../login-form/login-form';
 import ToLocation from '../to-location/to-location';
-import './styles.css';
 
 function LoginContent(): JSX.Element {
   return (

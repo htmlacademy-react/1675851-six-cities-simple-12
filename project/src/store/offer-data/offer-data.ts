@@ -40,6 +40,7 @@ export const offerData = createSlice({
       })
       .addCase(loadOffer.fulfilled, (state, action) => {
         state.offer = action.payload;
+        state.locationPoint = state.offer.city.location;
       })
       .addCase(loadOffer.rejected, (state, action) => {
         state.responseErrorCode = action.payload;

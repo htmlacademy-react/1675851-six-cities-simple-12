@@ -1,3 +1,11 @@
+.login__input {
+  outline: none;
+}
+
+.login__input:focus {
+  border-color: #4481c3;
+}
+
 .login__input:invalid:not(:placeholder-shown) {
   border-color: red;
 }
