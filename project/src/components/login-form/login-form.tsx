@@ -1,24 +1,28 @@
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { useState, FormEvent } from 'react';
 import { AuthFormData } from '../../types/data';
 import { useAppDispatch } from '../../hooks';
 import { login } from '../../store/api-actions';
+import './styles.css';
 
-export const EMAIL_PATTERN = /.+@.+\..+/i;
+const EMAIL_PATTERN = /.+@.+\..+/;
+const PASSWORD_PATTERN = /(?=.*[a-zA-Z])(?=.*[0-9])/;
 
 function LoginForm(): JSX.Element {
   const [formData, setFormData] = useState<AuthFormData>({ email: '', password: '' });
   const [isFormValid, setIsFormValid] = useState(false);
   const dispatch = useAppDispatch();
 
-  const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (evt: FormEvent<HTMLInputElement>) => {
     setIsFormValid(false);
 
+    const input = evt.target as HTMLInputElement;
+
     setFormData((prevData) => {
-      const newData = ({ ...prevData, [evt.target.name]: evt.target.value });
+      const newData = ({ ...prevData, [input.name]: input.value });
 
       if (
         newData.email.match(EMAIL_PATTERN) &&
-        newData.password.length > 0) {
+        newData.password.match(PASSWORD_PATTERN)) {
 
         setIsFormValid(true);
       }
@@ -47,7 +51,7 @@ function LoginForm(): JSX.Element {
             pattern=".+@.+\..+"
             autoComplete="off"
             required
-            onChange={handleChange}
+            onInput={handleChange}
           />
         </div>
         <div className="login__input-wrapper form__input-wrapper">
@@ -57,8 +61,9 @@ function LoginForm(): JSX.Element {
             type="password"
             name="password"
             placeholder="Password"
+            pattern="^(?:(?=.*[a-zA-Z])(?=.*[0-9]).*)$"
             required
-            onChange={handleChange}
+            onInput={handleChange}
           />
         </div>
         <button
